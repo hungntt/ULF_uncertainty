@@ -1,0 +1,763 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>64 mT Enhancement Program</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one measured argument column; figures, tables and status rails break out to a wider band. */
+:root{
+  --paper:#f6f7f8; --surface:#ffffff; --surface-2:#eef1f4;
+  --ink:#0e1419; --ink-2:#4a5560; --ink-3:#78848f;
+  --rule:#dfe3e7; --rule-strong:#c3cad1;
+  --accent:#0f6fc4; --accent-soft:#e7f0fa;
+  --ulf:#c4652f; --ulf-soft:#fbeee6;
+  --ok:#1b7f55; --warn:#9c6000; --stop:#b2403f;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --measure:68ch;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0e1216; --surface:#161b21; --surface-2:#1d242b;
+  --ink:#e8ecef; --ink-2:#a8b3bd; --ink-3:#7b8792;
+  --rule:#28313a; --rule-strong:#3a4650;
+  --accent:#5aa6ef; --accent-soft:#16293c;
+  --ulf:#e08a53; --ulf-soft:#2a1d14;
+  --ok:#3fae7d; --warn:#d99a33; --stop:#e07a79;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0e1216; --surface:#161b21; --surface-2:#1d242b;
+  --ink:#e8ecef; --ink-2:#a8b3bd; --ink-3:#7b8792;
+  --rule:#28313a; --rule-strong:#3a4650;
+  --accent:#5aa6ef; --accent-soft:#16293c;
+  --ulf:#e08a53; --ulf-soft:#2a1d14;
+  --ok:#3fae7d; --warn:#d99a33; --stop:#e07a79;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0}
+.wrap{max-width:980px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 72px}
+.col{max-width:var(--measure)}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;font-weight:600;letter-spacing:-.01em}
+h1{font-size:clamp(2.1rem,5.4vw,3.2rem);line-height:1.08;letter-spacing:-.025em}
+h2{font-size:clamp(1.5rem,3.2vw,2rem);line-height:1.15}
+h3{font-size:1.18rem;line-height:1.25}
+h4{font-size:1rem;font-family:var(--body);font-weight:600}
+p{margin:0}
+a{color:var(--accent)}
+.eyebrow{font-family:var(--body);font-size:.72rem;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3)}
+.lede{font-size:1.1rem;color:var(--ink-2);max-width:62ch}
+.stack{display:flex;flex-direction:column}
+.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g24{gap:24px}.g32{gap:32px}.g48{gap:48px}
+
+header.masthead{border-bottom:1px solid var(--rule-strong);padding-block:48px 28px;
+  display:flex;flex-direction:column;gap:18px}
+.fieldline{display:flex;align-items:baseline;gap:10px;font-family:var(--mono);
+  font-size:.82rem;color:var(--ink-3);flex-wrap:wrap}
+.fieldline b{color:var(--ulf);font-weight:500}
+.fieldline i{font-style:normal;color:var(--accent)}
+
+section{padding-block:40px;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:0}
+
+.finding{display:grid;grid-template-columns:auto 1fr;gap:0 20px;align-items:start}
+.tag{font-family:var(--mono);font-size:.78rem;font-weight:500;color:var(--surface);
+  background:var(--ink);border-radius:3px;padding:3px 8px;line-height:1.4}
+.finding .tag{margin-top:4px}
+
+figure{margin:0;display:flex;flex-direction:column;gap:10px}
+figure img{display:block;width:100%;max-width:100%;border-radius:4px;background:#fff;
+  border:1px solid var(--rule);padding:8px}
+figcaption{font-size:.84rem;color:var(--ink-2);max-width:72ch}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:5px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:min(100%,560px)}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--rule);white-space:nowrap}
+thead th{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+td.lab{white-space:normal;min-width:180px}
+tr.best td{background:var(--accent-soft)}
+tr.base td{color:var(--ink-2)}
+.win{color:var(--ok);font-weight:500}
+.loss{color:var(--stop)}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:6px;
+  padding:18px;display:flex;flex-direction:column;gap:7px;min-width:0}
+.card .k{font-family:var(--mono);font-size:1.45rem;font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;line-height:1.1}
+.card .t{font-size:.78rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+.card .d{font-size:.86rem;color:var(--ink-2)}
+
+.dir{display:flex;flex-direction:column;gap:18px;border-left:3px solid var(--accent);
+  padding-left:22px}
+.dir.d2{border-left-color:var(--ulf)}
+.dir.d3{border-left-color:var(--ok)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.73rem;font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;
+  border:1px solid currentColor;width:fit-content}
+.chip.done{color:var(--ok)}
+.chip.run{color:var(--warn)}
+.chip.plan{color:var(--ink-3)}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+
+ul,ol{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:7px}
+li::marker{color:var(--ink-3)}
+code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);
+  padding:1px 5px;border-radius:3px}
+.note{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--warn);
+  border-radius:0 5px 5px 0;padding:14px 18px;font-size:.92rem;color:var(--ink-2)}
+.note b{color:var(--ink)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem}
+.kv dt{font-family:var(--mono);color:var(--ink-3);font-size:.82rem}
+.kv dd{margin:0;color:var(--ink-2)}
+footer{padding-block:34px 0;font-size:.85rem;color:var(--ink-3);border-top:1px solid var(--rule-strong)}
+@media (max-width:560px){
+  .finding{grid-template-columns:1fr;gap:10px}
+  .dir{padding-left:16px}
+  th,td{padding:8px 10px}
+}
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">Research plan &amp; results · 52 runs complete · 20 October 2026</div>
+  <h1>Three directions for 64&nbsp;mT&nbsp;→&nbsp;3T brain MRI enhancement</h1>
+  <p class="lede">A diagnosis of why the previous approach stalled, three MICCAI-shaped
+  directions built on that diagnosis, and the baseline protocol they are measured against.</p>
+  <div class="fieldline">
+    <span><b>50</b> paired POCEMR subjects</span><span>·</span>
+    <span>Hyperfine Swoop <b>64 mT</b> → <i>3T</i></span><span>·</span>
+    <span>T1 and T2</span><span>·</span>
+    <span>185 unpaired 3T subjects</span><span>·</span>
+    <span>48 unpaired 64 mT subjects</span>
+  </div>
+</header>
+
+<section>
+  <div class="stack g24 col">
+    <div class="stack g12">
+      <div class="eyebrow">Headline</div>
+      <h2>Pairing was the bottleneck, not direction</h2>
+    </div>
+    <p>The predecessor project ruled out training on the 40 paired subjects and spent its effort
+    on unpaired objectives, believing a measured “cross-subject ceiling” of 0.50–0.67 bounded how
+    well any method could point the correction. That number is an artifact of measuring in an
+    8×8 pooled embedding. At full resolution the shared cross-subject direction is
+    <b>0.09</b> (T2) and <b>0.22</b> (T1), and in the high-frequency sub-bands it is
+    <b>zero</b>. The correction is almost entirely subject-specific.</p>
+    <p>A plain supervised U-Net on 32 paired subjects reaches a directional cosine of
+    <b>0.74</b> on the locked test set — roughly eight times the shared component, and far past
+    the supposed ceiling. The same model also makes the high-frequency deficit
+    <em>worse</em> than doing nothing. That is the gap the three directions attack.</p>
+  </div>
+
+  <div class="cards" style="margin-top:28px">
+    <div class="card">
+      <div class="t">Shared direction, LL</div>
+      <div class="k" style="color:var(--stop)">0.09</div>
+      <div class="d">Cross-subject residual cosine, T2, full resolution. Reported earlier as
+      0.50–0.67 from a pooled embedding.</div>
+    </div>
+    <div class="card">
+      <div class="t">Supervised U-Net, LL</div>
+      <div class="k" style="color:var(--ok)">0.74</div>
+      <div class="d">Same metric, 32 paired subjects, 10 locked test subjects.</div>
+    </div>
+    <div class="card">
+      <div class="t">Corpus spectral gap</div>
+      <div class="k" style="color:var(--warn)">4.7×</div>
+      <div class="d">Missing high-frequency power in the auxiliary 3T corpus relative to the
+      clinical 3T target, above r = 64.</div>
+    </div>
+    <div class="card">
+      <div class="t">Brain-masked SSIM</div>
+      <div class="k">0.50</div>
+      <div class="d">Do-nothing baseline inside the brain. The same slices score 0.857
+      whole-image, because 75% of each slice is skull-stripped background.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">Ground truth</div>
+      <h2>What the data actually is</h2>
+      <p>Everything below uses a subject-disjoint split. Ten subjects are locked for test and
+      were touched once per method; eight of the forty training subjects are held out for model
+      selection, leaving 32 for fitting.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Pool</th><th class="num">Subjects</th><th class="num">T1 slices</th><th class="num">T2 slices</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td>Paired POCEMR, train</td><td class="num">40</td><td class="num">2497</td><td class="num">2478</td><td>32 fit + 8 model selection</td></tr>
+          <tr><td>Paired POCEMR, test</td><td class="num">10</td><td class="num">633</td><td class="num">625</td><td>locked</td></tr>
+          <tr><td>Unpaired 3T (FOMO-50k / IXI)</td><td class="num">185</td><td class="num">11628</td><td class="num">11625</td><td>corpus for Direction 1</td></tr>
+          <tr><td>Unpaired 64 mT</td><td class="num">48</td><td class="num">5484</td><td class="num">5589</td><td>independent realism check</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note col">
+      <b>The unpaired 3T array holds 185 subjects, not 356.</b> Consecutive slices correlate
+      above 0.98 within a subject and below 0.90 across one, which cuts the stack into 185 runs
+      of 57–69 slices — the same central z-window as the paired cohort. Worth checking against
+      the preprocessing logs before any paper quotes a subject count.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g48">
+
+    <div class="stack g16">
+      <div class="eyebrow">Diagnosis</div>
+      <h2>Four things worth knowing before choosing a method</h2>
+    </div>
+
+    <div class="finding">
+      <span class="tag">A</span>
+      <div class="stack g16">
+        <h3>The correction is subject-specific, and the old ceiling was a pooling artifact</h3>
+        <p class="col">Take the per-slice residual <code>d = W(3T) − W(64 mT)</code> in sym4
+        sub-bands and compare it between different subjects at matched axial position. If the
+        correction were a population-level effect, those residuals would align.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Sub-band</th><th class="num">cross-subject, T2</th><th class="num">cross-subject, T1</th><th class="num">within subject, adjacent slice (T2 / T1)</th></tr></thead>
+            <tbody>
+              <tr><td>LL</td><td class="num">0.090</td><td class="num">0.218</td><td class="num">0.946 / 0.901</td></tr>
+              <tr><td>LH</td><td class="num">0.003</td><td class="num">0.001</td><td class="num">0.890 / 0.583</td></tr>
+              <tr><td>HL</td><td class="num">0.000</td><td class="num">0.001</td><td class="num">0.833 / 0.505</td></tr>
+              <tr><td>HH</td><td class="num">−0.001</td><td class="num">0.000</td><td class="num">0.746 / 0.334</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="col">The 0.50–0.67 figure reproduces only after pooling. On T1 the same
+        cross-subject cosine climbs from 0.218 at full resolution to 0.570 at 16² and 0.737 at
+        8² — straight through the band the earlier work treated as its target. Pooling averages
+        away the subject-specific detail and leaves a brain-shaped silhouette every subject
+        shares.</p>
+        <figure>
+          <img src="fig2_ceiling.png" alt="Left: cross-subject residual cosine rising from 0.09 to 0.74 as the LL sub-band is pooled from 131 squared down to 8 squared, passing through the shaded 0.50 to 0.67 band. Right: bar chart showing within-subject adjacent-slice cosine of 0.33 to 0.95 against near-zero cross-subject values in all four sub-bands.">
+          <figcaption>Left: the same quantity, measured at five pooling levels. Right: solid bars
+          are within-subject (adjacent slice), hatched bars are across subjects — the residual is
+          highly predictable from the same subject and almost unpredictable from another one.</figcaption>
+        </figure>
+        <p class="col"><b>Consequence.</b> No unpaired population objective — optimal transport,
+        MMD, a PatchGAN, a cycle — can supply a correction that barely exists at population
+        level. This is a stronger statement than “the shared signal is weak”, and it explains the
+        whole sequence of failures in the predecessor project without appealing to loss design.
+        It says nothing about paired supervision, which gets to use the subject's own measurement.</p>
+      </div>
+    </div>
+
+    <div class="finding">
+      <span class="tag">B</span>
+      <div class="stack g16">
+        <h3>The auxiliary 3T corpus is spectrally softer than the clinical target</h3>
+        <p class="col">Every method here that wants more than 40 subjects reaches for an
+        unpaired 3T corpus. Measured against the POCEMR 3T target the corpus is missing
+        <b>4.55×</b> (T1) and <b>4.70×</b> (T2) of the power above r = 64 — a gap of 3.8 and 4.9
+        standard deviations of the target cohort's own between-subject spread.</p>
+        <figure>
+          <img src="fig1_reference_gap.png" alt="Three panels of radial power spectra. In both T1 and T2 the POCEMR 3T target curve sits well above the IXI corpus at high frequency; for T2 above radial frequency 100 the corpus also falls below the 64 mT input. The third panel shows the target-to-corpus power ratio climbing to about 13 for T2 and 7 for T1.">
+          <figcaption>Normalised radial power spectra. The 48 unpaired 64 mT subjects track the
+          paired cohort's 64 mT closely, so the ULF side is consistent; the gap is on the 3T
+          side. Above r ≈ 100 on T2 the “3T” corpus carries <em>less</em> high-frequency power
+          than the 64 mT input it is meant to teach the model to improve on.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="finding">
+      <span class="tag">C</span>
+      <div class="stack g16">
+        <h3>Whole-image SSIM is mostly background</h3>
+        <p class="col">The volumes are skull-stripped, so about 75% of every slice is exactly
+        zero and agrees trivially. The do-nothing baseline scores 0.857 SSIM and 22.2 dB PSNR
+        whole-image, and 0.503 SSIM and 16.3 dB inside the brain mask. All numbers in this
+        report are brain-masked; whole-image figures are carried alongside only for
+        comparability with published tables.</p>
+      </div>
+    </div>
+
+    <div class="finding">
+      <span class="tag">D</span>
+      <div class="stack g16">
+        <h3>Registration and intensity are not the gap</h3>
+        <p class="col">An exhaustive in-plane shift search improves brain NCC by at most 0.007
+        (T1) and 0.000 (T2), so the pairs are already aligned; 3T-T1 against 3T-T2 and 64 mT-T2
+        against 3T-T1 are both optimal at zero shift, so the two contrasts share one grid and
+        cross-contrast fusion needs no extra registration. Global histogram matching fitted on
+        the training 3T pool moves masked SSIM only from 0.503 to 0.517. What is left is
+        within-scale structure.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="stack g48">
+    <div class="stack g12 col">
+      <div class="eyebrow">Programme</div>
+      <h2>Three directions</h2>
+      <p>Each is a separate paper with its own claim, its own baselines and its own failure
+      mode. They share the split, the metrics and the backbone so their numbers compose.</p>
+    </div>
+
+    <div class="dir">
+      <div class="stack g12">
+        <span class="chip done"><span class="dot"></span>Complete · T2, two arms on T1</span>
+        <h3>1 · Mind the reference gap</h3>
+        <p class="col"><b>Claim.</b> Pretraining on an unpaired 3T corpus is standard practice
+        and is quietly capped by Finding B. Fix it in two places: learn the 64 mT forward
+        operator from the few real pairs instead of hand-designing it, and calibrate the corpus
+        onto the target's radial spectrum before degrading it.</p>
+      </div>
+      <dl class="kv">
+        <dt>method</dt><dd>Fit <code>F: 3T → 64 mT</code> on 32 paired subjects — the
+          information-destroying direction, so it is well-posed — then colour its residual with
+          the measured ULF residual spectrum. Rescale the corpus by a radial gain
+          <code>√(S_target/S_corpus)</code>, apply F, pretrain, finetune on the real pairs.</dd>
+        <dt>arms</dt><dd>real pairs only (compute-matched) · hand-designed physics degradation
+          (coil shading, B0-driven T2*, k-space truncation, Rician) · learned F on the raw
+          corpus · learned F on the calibrated corpus</dd>
+        <dt>checks</dt><dd>The 48 unpaired 64 mT subjects never enter training and are used to
+          ask which operator's output actually lands in the real 64 mT distribution. Two sweeps
+          over 4/8/16/32 paired subjects separate the corpus effect from the operator effect —
+          one borrowing a 32-subject operator, one refitting it on each subset.</dd>
+        <dt>nearest work</dt><dd>ULF-Synth (2026) hand-designs the degradation and trains on
+          synthetic pairs from a 1.5T paediatric corpus. It never asks whether that corpus
+          matches the clinical target.</dd>
+      </dl>
+
+      <div class="stack g16">
+        <h4>Result: the forward operator is the thing that transfers</h4>
+        <figure>
+          <img src="fig3_d1.png" alt="Left: dot plot of masked SSIM for four Direction 1 arms, all pretrained arms right of the dashed no-corpus reference. Right: zero-shot LL directional cosine, minus 0.036 for the hand-crafted physics operator against plus 0.684 for the learned operator and plus 0.625 for the calibrated corpus.">
+          <figcaption>Left: after finetuning on the 32 real pairs. Right: the same networks
+          <em>before</em> any finetuning, scored on real 64&nbsp;mT.</figcaption>
+        </figure>
+        <p>A network pretrained on hand-designed synthetic pairs carries essentially no
+        directional information to real 64&nbsp;mT: its zero-shot LL cosine is <b>−0.036</b>.
+        Replace the designed operator with one fitted on 32 paired subjects and the same
+        pipeline reaches <b>+0.684</b> — a zero-shot SSIM of 0.620 that already matches the
+        fully supervised baseline's test SSIM of 0.622, with no real paired enhancement
+        example ever seen. That is the headline: the transferable object is the forward
+        operator, not the enhancer.</p>
+        <p>It also validates against data that never enters training. Measured on the 48
+        unpaired 64&nbsp;mT subjects, the learned operator's output is ~6× closer to the real
+        64&nbsp;mT distribution than the designed chain, on both intensity histogram
+        (JSD 0.0019 vs 0.0123) and log-spectrum (0.0198 vs 0.1160). The control row in that
+        table keeps it honest: a genuinely different real ULF cohort sits at 0.0069, so the
+        learned arm scoring <em>below</em> it means the synthetic pool is under-dispersed
+        relative to real between-cohort variation. Domain-randomising F is the obvious remedy
+        and is not implemented yet.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="lab">T2, after finetuning</th><th class="num">PSNR</th><th class="num">SSIM</th><th class="num">ΔSSIM vs best no-corpus</th><th class="num">p</th><th class="num">HF-pow</th></tr></thead>
+            <tbody>
+              <tr class="base"><td class="lab">real pairs only, compute-matched</td><td class="num">19.04</td><td class="num">0.594</td><td class="num">—</td><td class="num">—</td><td class="num">−0.278</td></tr>
+              <tr class="base"><td class="lab">best no-corpus model (baseline U-Net)</td><td class="num">19.42</td><td class="num">0.622</td><td class="num">—</td><td class="num">—</td><td class="num">−0.268</td></tr>
+              <tr><td class="lab">+ hand-crafted physics D</td><td class="num">19.69</td><td class="num">0.630</td><td class="num">+0.0080</td><td class="num">0.004</td><td class="num"><span class="loss">−0.329</span></td></tr>
+              <tr><td class="lab">+ learned F, raw corpus</td><td class="num">19.54</td><td class="num">0.634</td><td class="num">+0.0119</td><td class="num">0.002</td><td class="num">−0.267</td></tr>
+              <tr class="best"><td class="lab">+ learned F, calibrated corpus</td><td class="num">19.61</td><td class="num"><span class="win">0.639</span></td><td class="num"><span class="win">+0.0171</span></td><td class="num">0.002</td><td class="num"><span class="win">−0.240</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>All three corpus arms beat the strongest no-corpus model. Spectral calibration is
+        worth +0.0052 SSIM over the raw corpus on its own (p&nbsp;=&nbsp;0.002, meaning all ten
+        test subjects improved) and moves the high-frequency power error from −0.267 to
+        −0.240. The effect is small and completely consistent — Finding B holds, but it is
+        worth much less at the finetuned endpoint than learning the operator is at zero shot.</p>
+        <p>One aside that matters for how this field reports results: the hand-crafted arm wins
+        PSNR (19.69) while having the <em>worst</em> high-frequency power error (−0.329). It
+        biases the model toward blur, and PSNR pays for blur.</p>
+
+        <h4>How much paired data does this replace?</h4>
+        <figure>
+          <img src="fig6_nsubj.png" alt="Masked SSIM against paired training subjects on a log axis, three curves: no corpus lowest, corpus with an operator fitted on the same n subjects in the middle, and corpus with a borrowed 32-subject operator highest. The upper two meet at thirty-two subjects.">
+          <figcaption>Nested subsets of the training cohort. The dashed curve borrows the
+          operator fitted on all 32 subjects; the solid blue curve refits the operator, the
+          calibration target and the enhancer on the same <i>n</i>. They coincide at
+          <i>n</i>&nbsp;=&nbsp;32 by construction.</figcaption>
+        </figure>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="num">paired subjects</th><th class="num">no corpus</th><th class="num">+ corpus, own operator</th><th class="num">honest gain</th><th class="num">+ corpus, borrowed operator</th></tr></thead>
+            <tbody>
+              <tr><td class="num">4</td><td class="num">0.4667</td><td class="num">0.5124</td><td class="num">+0.0457</td><td class="num">0.5623</td></tr>
+              <tr><td class="num">8</td><td class="num">0.5091</td><td class="num">0.5570</td><td class="num">+0.0479</td><td class="num">0.5898</td></tr>
+              <tr><td class="num">16</td><td class="num">0.5614</td><td class="num">0.5969</td><td class="num">+0.0355</td><td class="num">0.6165</td></tr>
+              <tr><td class="num">32</td><td class="num">0.5937</td><td class="num">0.6392</td><td class="num">+0.0455</td><td class="num">0.6392</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <b>A claim this control removed.</b> Fitting the operator once on all 32 subjects and
+          reusing it at every cohort size made the corpus look worth twice as much when paired
+          data is scarce (+0.096 at four subjects, decaying to +0.046 at thirty-two). Refit the
+          operator on the same <i>n</i> subjects and that decay disappears: the gain is
+          <b>+0.046, +0.048, +0.036, +0.046</b> at 4, 8, 16 and 32, with no trend. The low-<i>n</i> advantage was
+          the borrowed operator, not the corpus.
+        </div>
+        <p>What the gap between the two corpus curves measures is worth more than the claim it
+        replaced. At four paired subjects, <em>borrowing</em> an operator fitted on 32 is worth
+        +0.050 SSIM — as much as the entire corpus effect. There are two separable effects
+        here, and only one of them depends on how much paired data you have:</p>
+        <ul>
+          <li><b>Corpus amplification</b> is worth a flat ~+0.044 SSIM at every cohort size,
+          significant at p&nbsp;=&nbsp;0.002 in all four arms — all ten test subjects improved
+          in every one.</li>
+          <li><b>Operator transfer</b> is what scales with scarcity: borrowing an operator
+          fitted on 32 subjects is worth +0.050 SSIM at four paired subjects, +0.033 at eight,
+          +0.020 at sixteen, and nothing at thirty-two.</li>
+        </ul>
+        <p>So the operator is the asset. Fit it centrally on whatever paired data exists, ship
+        it, and a new site needs very little paired data of its own — the same conclusion the
+        zero-shot result reaches from the other direction.</p>
+      </div>
+    </div>
+
+    <div class="dir d2">
+      <div class="stack g12">
+        <span class="chip done"><span class="dot"></span>Complete · T1 and T2</span>
+        <h3>2 · Asymmetric cross-contrast fusion</h3>
+        <p class="col"><b>Claim.</b> The two routine contrasts do not degrade equally at 64 mT.
+        T1 relaxation times converge at low field, so ULF T1 loses grey/white separation, while
+        ULF T2 keeps tissue contrast and loses resolution. The two images are differently
+        corrupted views of one anatomy and the useful information should flow mostly one way.
+        Finding D says they already share a grid.</p>
+      </div>
+      <dl class="kv">
+        <dt>method</dt><dd>One availability-conditioned network over both 2.5D slabs plus two
+          indicator channels, trained with modality dropout so a single model serves T1-only,
+          T2-only and both-contrast deployment.</dd>
+        <dt>arms</dt><dd>T1→T1 · T2→T2 · both→both · T2→T1 and T1→T2 (pure cross-contrast) ·
+          both→T1 and both→T2 (identical target, capacity and budget, only the input differs) ·
+          dropout model evaluated in all three regimes</dd>
+        <dt>why it is not just stacking channels</dt><dd>Existing multi-sequence work feeds
+          T1/T2/FLAIR as channels without measuring what each contributes. The cross-only and
+          same-target arms separate the input-side gain from the multi-task effect, and the
+          within-subject sub-band numbers in Finding A already predict the asymmetry: T1's
+          high-frequency residual is far less predictable than T2's (HH 0.33 vs 0.75).</dd>
+      </dl>
+
+      <div class="stack g16">
+        <h4>Result: the 64 mT T1 acquisition is close to redundant</h4>
+        <p>Six dedicated models plus one modality-dropout model, all on the same intersected
+        slice index (2477 train / 625 test), same backbone, same 10k-step budget.</p>
+        <figure>
+          <img src="fig4_d2.png" alt="Dot plot of masked PSNR and SSIM for the 3T T1 and 3T T2 targets. For the 3T T1 target the other-contrast model (64 mT T2 input) sits above the own-contrast model. For the 3T T2 target the other-contrast model (64 mT T1 input) falls far below both others.">
+          <figcaption>Dot is the mean over the ten test subjects, the line their range; the
+          dashed rule is the unchanged 64 mT input. For the 3T&nbsp;T1 target the
+          <em>other</em> contrast beats the own contrast.</figcaption>
+        </figure>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="lab">One dropout-trained model, three input regimes</th><th class="num">→ 3T T1</th><th class="num">→ 3T T2</th></tr></thead>
+            <tbody>
+              <tr class="base"><td class="lab">64 mT input, unchanged</td><td class="num">13.91 / 0.358</td><td class="num">16.34 / 0.503</td></tr>
+              <tr><td class="lab">64 mT T1 only</td><td class="num">17.45 / 0.531</td><td class="num">17.64 / 0.516</td></tr>
+              <tr class="best"><td class="lab">64 mT T2 only</td><td class="num">17.76 / 0.553</td><td class="num">19.33 / 0.613</td></tr>
+              <tr><td class="lab">both contrasts</td><td class="num">18.16 / 0.577</td><td class="num">19.45 / 0.619</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Feeding only the 64 mT T2 scan recovers 3T T1 <em>better than feeding the 64 mT T1
+        scan itself</em> (17.76 vs 17.45 dB), and lands within 0.12 dB of the both-contrast
+        model on 3T T2. The dedicated models replicate it: 17.69 / 0.558 from T2 against
+        17.44 / 0.520 from T1 on the 3T T1 target.</p>
+        <h4>The clean input-side control</h4>
+        <p>Six single-output models: identical head, capacity and budget, so the only thing
+        that varies is which 64&nbsp;mT contrast the network can see. This separates the
+        input-side gain from the multi-task effect of a two-output head.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="lab">64 mT input</th><th class="num">→ 3T T1</th><th class="num">→ 3T T2</th></tr></thead>
+            <tbody>
+              <tr><td class="lab">T1 only</td><td class="num">17.44 / 0.520</td><td class="num">17.39 / 0.503</td></tr>
+              <tr><td class="lab">T2 only</td><td class="num">17.69 / 0.558</td><td class="num">19.45 / 0.619</td></tr>
+              <tr class="best"><td class="lab">both</td><td class="num">18.23 / 0.576</td><td class="num">19.50 / 0.629</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="lab">SSIM gained by adding the second contrast</th><th class="num">adding T2</th><th class="num">adding T1</th></tr></thead>
+            <tbody>
+              <tr><td class="lab">on the 3T T1 target</td><td class="num"><span class="win">+0.056</span> (p 0.002)</td><td class="num">+0.017 (p 0.037)</td></tr>
+              <tr><td class="lab">on the 3T T2 target</td><td class="num"><span class="win">+0.127</span> (p 0.002)</td><td class="num">+0.010 (p 0.002)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Adding the 64&nbsp;mT T2 image is worth three to thirteen times more than adding the
+        64&nbsp;mT T1 image, on either target. On the 3T T2 target, adding T1 moves PSNR by
+        +0.05&nbsp;dB (p&nbsp;=&nbsp;0.38, not significant) and SSIM by +0.010. At
+        <i>n</i>&nbsp;=&nbsp;10 the smallest reachable Wilcoxon p is 0.002, which means all ten
+        subjects moved together.</p>
+        <p class="col" style="font-size:.92rem;color:var(--ink-2)"><b>This control softened an
+        earlier reading.</b> Measured through the two-output joint model, adding T1 to T2
+        looked non-significant on both targets. With the single-output control it is
+        significant, just much smaller than the reverse. The asymmetry is a matter of degree,
+        not an on/off effect: both contrasts contribute and T2 contributes most.</p>
+        <p>This is what Finding A predicts: the within-subject HH residual cosine is 0.334 for
+        T1 against 0.746 for T2, so the 64 mT T1 residual is largely unstructured noise.
+        Clinically it argues that a portable triage protocol could drop the slower,
+        motion-prone 64 mT T1 acquisition and still synthesise both 3T-like contrasts — a
+        claim that now needs a reader study rather than another metric.</p>
+        <p>Modality dropout also regularises: the dropout model beats the dedicated joint model
+        on both targets (18.16 vs 17.96 on T1, 19.45 vs 19.32 on T2), so one network covers all
+        three deployment regimes at no cost.</p>
+      </div>
+    </div>
+
+    <div class="dir d3">
+      <div class="stack g12">
+        <span class="chip done"><span class="dot"></span>Complete · T1 and T2</span>
+        <h3>3 · Risk-controlled enhancement</h3>
+        <p class="col"><b>Claim.</b> An enhanced 64 mT image is clinically usable only if the
+        reader knows where to trust it, and the exchangeable unit in a low-field study is a
+        subject, not a voxel. Attaching a finite-sample guarantee exposes a limit nobody in this
+        literature has stated.</p>
+      </div>
+      <dl class="kv">
+        <dt>method</dt><dd>Simultaneous quantile regression head, split-conformal calibration on
+          held-out subjects, and conformal risk control over per-subject miscoverage.</dd>
+        <dt>the limit</dt><dd>Risk is bounded by 1, so conformal risk control over
+          <i>n</i> calibration subjects cannot certify any level finer than
+          <code>1/(n+1)</code>. With the eight subjects a 50-subject ULF study can spare, the
+          floor is <b>0.111</b> — a 10% risk level is unreachable however good the model is.</dd>
+        <dt>arms</dt><dd>heteroscedastic (CQR) vs constant-width intervals at matched coverage ·
+          Gaussian NLL head · calibration-set size sweep · does interval width localise error,
+          or is it an edge detector</dd>
+      </dl>
+
+      <div class="stack g16">
+        <h4>Result: what a 50-subject cohort can and cannot certify</h4>
+        <figure>
+          <img src="fig5_d3.png" alt="Three panels. Left: per-subject coverage against mean interval width, heteroscedastic points clustered near width 0.32 and constant-width points at 0.35. Middle: per-subject coverage against calibration-set size, mean flat at 0.90 with a wide band and a 5th percentile near 0.81. Right: SD of coverage against calibration size, total spread flat near 0.029 and the calibration-noise component near 0.014.">
+          <figcaption>Split-conformal on the 8 held-out training subjects, evaluated on the
+          locked 10, at α&nbsp;=&nbsp;0.1. The right two panels resample the split over the 18
+          non-training subjects.</figcaption>
+        </figure>
+        <ol>
+          <li><b>Heteroscedastic intervals pay for themselves.</b> At matched coverage
+          (0.891 vs 0.892 against a 0.90 target), CQR intervals are <b>9.4% narrower</b> than
+          a constant width — 0.318 against 0.351.</li>
+          <li><b>α&nbsp;=&nbsp;0.1 is unreachable here, at any model quality.</b> The risk is
+          bounded by 1, so the CRC condition is infeasible unless
+          α&nbsp;&gt;&nbsp;1/(<i>n</i>+1). With 8 calibration subjects the floor is
+          <b>0.111</b>. At the smallest feasible level (α&nbsp;=&nbsp;0.131) the certified
+          inflation is λ&nbsp;=&nbsp;0.26 and the realised test risk is 0.026 — an order of
+          magnitude inside the bound, because the finite-sample penalty is binding rather than
+          the model. Certifying α&nbsp;=&nbsp;0.05 needs 19 calibration subjects;
+          α&nbsp;=&nbsp;0.01 needs 99.</li>
+          <li><b>Interval width is a usable error map.</b> Spearman(width,&nbsp;|error|) = 0.470
+          and AUROC = 0.828 for flagging the worst 10% of voxels. It localises error rather
+          than tracing edges.</li>
+          <li><b>More calibration subjects do not buy per-subject reliability.</b> Coverage
+          spread across subjects barely moves from <i>n</i>&nbsp;=&nbsp;2 to 12 (SD 0.032 to
+          0.028) while the calibration-noise component is only half of it (0.016 to 0.014).
+          The variance is the subjects. One subject in twenty gets ~0.81 coverage when the
+          method promised 0.90, and collecting more calibration data does not close that gap —
+          subject-conditional (Mondrian) calibration is the right target.</li>
+        </ol>
+        <p><b>The uncertainty head is not free.</b> The quantile model's median prediction is
+        worse than the plain L1 baseline (18.86 / 0.570 against 19.42 / 0.622), though it is
+        less blurred (r&nbsp;HH 0.583 vs 0.268). A deployment would run the point model and the
+        interval model separately, or accept the cost. A Gaussian variance head is the better
+        of the two uncertainty models: at matched coverage its intervals are 13.6% narrower
+        than constant width against CQR's 9.4%, at equal point accuracy.</p>
+        <p><b>And it is a T2 result, not a general one.</b> Repeated on T1, the heteroscedastic
+        advantage nearly vanishes (1.8% narrower for CQR, 4.3% for the Gaussian head) and the
+        width map stops being useful — AUROC falls from 0.828 to 0.602. Same explanation as
+        everywhere else in this study: the 64&nbsp;mT T1 input is noise-dominated, so its error
+        is more spatially uniform and less predictable from the image. A hallucination map is a
+        credible deliverable on T2 and not yet on T1.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">Measurement</div>
+      <h2>Baselines and protocol</h2>
+      <p>Published numbers are not comparable across cohorts, so every competitor is
+      reimplemented on this split with the same input, budget and metrics. Significance is a
+      Wilcoxon signed-rank test over the ten test subjects against the do-nothing baseline.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">T2, locked 10-subject test</th><th class="num">PSNR</th><th class="num">SSIM</th><th class="num">cos LL</th><th class="num">r HH</th><th class="num">HF-power err</th></tr></thead>
+        <tbody>
+          <tr class="base"><td class="lab">64 mT input (do nothing)</td><td class="num">16.34 ± 0.51</td><td class="num">0.503 ± 0.030</td><td class="num">—</td><td class="num">0</td><td class="num">−0.176</td></tr>
+          <tr class="base"><td class="lab">Global histogram matching</td><td class="num">16.67 ± 0.55</td><td class="num">0.517 ± 0.033</td><td class="num">0.336</td><td class="num">—</td><td class="num">−0.212</td></tr>
+          <tr><td class="lab">U-Net, L1 · 32 paired subjects</td><td class="num">19.42 ± 1.23</td><td class="num">0.622 ± 0.042</td><td class="num">0.741</td><td class="num">0.268</td><td class="num"><span class="loss">−0.268</span></td></tr>
+          <tr class="best"><td class="lab">U-Net, L1 + masked SSIM</td><td class="num"><span class="win">19.73 ± 1.13</span></td><td class="num"><span class="win">0.655 ± 0.043</span></td><td class="num"><span class="win">0.772</span></td><td class="num">0.369</td><td class="num">−0.194</td></tr>
+          <tr><td class="lab">cGAN / pix2pix</td><td class="num">18.75 ± 1.06</td><td class="num">0.590 ± 0.038</td><td class="num">0.718</td><td class="num">0.792</td><td class="num">−0.114</td></tr>
+          <tr><td class="lab">LoHiResGAN, reimplemented</td><td class="num">18.08 ± 0.91</td><td class="num">0.545 ± 0.034</td><td class="num">0.697</td><td class="num"><span class="win">0.841</span></td><td class="num">−0.132</td></tr>
+          <tr><td class="lab">U-Net, absolute output (no residual anchor)</td><td class="num">19.62 ± 1.14</td><td class="num">0.628 ± 0.043</td><td class="num">0.759</td><td class="num">0.416</td><td class="num">−0.233</td></tr>
+          <tr><td class="lab">U-Net on subject-mismatched pairs</td><td class="num">16.50 ± 1.00</td><td class="num"><span class="loss">0.366 ± 0.031</span></td><td class="num">0.489</td><td class="num">0.078</td><td class="num">−0.146</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">T1, locked 10-subject test</th><th class="num">PSNR</th><th class="num">SSIM</th><th class="num">cos LL</th><th class="num">r HH</th><th class="num">HF-power err</th></tr></thead>
+        <tbody>
+          <tr class="base"><td class="lab">64 mT input (do nothing)</td><td class="num">13.91 ± 0.47</td><td class="num">0.358 ± 0.034</td><td class="num">—</td><td class="num">0</td><td class="num">−0.186</td></tr>
+          <tr><td class="lab">U-Net, L1</td><td class="num">17.49 ± 0.84</td><td class="num">0.520 ± 0.043</td><td class="num"><span class="win">0.761</span></td><td class="num">0.222</td><td class="num"><span class="loss">−0.541</span></td></tr>
+          <tr class="best"><td class="lab">U-Net, absolute output (no residual anchor)</td><td class="num"><span class="win">17.52 ± 0.86</span></td><td class="num"><span class="win">0.535 ± 0.044</span></td><td class="num">0.757</td><td class="num">0.681</td><td class="num">−0.330</td></tr>
+          <tr><td class="lab">U-Net, L1 + masked SSIM</td><td class="num">17.14 ± 0.81</td><td class="num">0.487 ± 0.041</td><td class="num">0.741</td><td class="num">0.769</td><td class="num">−0.451</td></tr>
+          <tr><td class="lab">cGAN / pix2pix</td><td class="num">16.96 ± 0.78</td><td class="num">0.502 ± 0.042</td><td class="num">0.749</td><td class="num">0.462</td><td class="num">−0.296</td></tr>
+          <tr><td class="lab">LoHiResGAN, reimplemented</td><td class="num">16.22 ± 0.75</td><td class="num">0.433 ± 0.039</td><td class="num">0.708</td><td class="num"><span class="win">0.980</span></td><td class="num"><span class="win">−0.076</span></td></tr>
+          <tr><td class="lab">U-Net on subject-mismatched pairs</td><td class="num">15.12 ± 0.62</td><td class="num"><span class="loss">0.306 ± 0.029</span></td><td class="num">0.577</td><td class="num">—</td><td class="num">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">Two things flip between contrasts. The masked-SSIM auxiliary loss
+    <em>helps</em> on T2 (0.622&nbsp;→&nbsp;0.655) and <em>hurts</em> on T1
+    (0.520&nbsp;→&nbsp;0.487) while tripling T1 texture (r&nbsp;HH 0.22&nbsp;→&nbsp;0.77), so a
+    loss tuned on one contrast should not be shipped for both. And LoHiResGAN on T1 reaches
+    essentially matched sharpness (r&nbsp;HH 0.980, HF-power −0.076) while posting the worst
+    masked SSIM of any trained model — sharpness and fidelity moving in opposite directions,
+    which is how one set of runs can support either story.</p>
+
+    <p class="col" style="font-size:.9rem;color:var(--ink-2)">The last row of each table is the
+    decisive control for Finding A: it keeps the marginals, the anatomy and the axial position
+    and destroys only the subject correspondence. If the correction were a population effect it
+    should cost almost nothing.</p>
+    <div class="note col">
+      <b>It costs everything.</b> Mismatching the subjects loses 2.92&nbsp;dB, 0.256 SSIM and
+      0.252 LL cosine, each at p&nbsp;=&nbsp;0.002 — all ten test subjects move together — and
+      drops masked SSIM to 0.366, <em>below the 0.503 of leaving the image alone</em>. A model
+      that has learned only the population-level mapping is worse than no model. The residual
+      0.489 LL cosine says a population-average correction does exist and is learnable; it is
+      simply nowhere near enough, and it arrives packaged with a net loss in image quality.
+      This single row is why every unpaired objective in the predecessor project failed.
+    </div>
+
+    <div class="stack g12 col">
+      <h4>What the adversarial baselines actually buy</h4>
+      <figure>
+        <img src="fig_qualitative_T2.png" alt="Seven-column comparison for one test subject: 64 mT input, U-Net, cGAN, LoHiResGAN, paired-only, Direction 1 calibrated corpus, and the 3T reference, shown as full slice, zoom, and absolute error map.">
+        <figcaption>One locked-test subject. Top: full slice. Middle: zoom. Bottom: absolute
+        error against the 3T reference. The regression models are visibly smooth; the
+        adversarial ones carry texture that does not match the reference's; our LoHiResGAN
+        reimplementation also shows checkerboard artefacts from its stride-2 transposed
+        convolutions, which contributes to its lower masked SSIM.</figcaption>
+      </figure>
+      <p>Both GAN architectures lose to plain regression on every distortion metric, and the
+      sub-band decomposition says why. The critic restores almost exactly the right
+      <em>amount</em> of high-frequency energy — r&nbsp;HH climbs from 0.37 to 0.79 and 0.84, and
+      the high-frequency power error nearly closes — while pointing it <em>less</em> accurately
+      than L1&nbsp;+&nbsp;SSIM does (cos&nbsp;HH 0.17 and 0.21 against 0.32). It is adding plausible
+      3T texture rather than this subject's texture, which is precisely the quantity Finding A
+      shows is shared across subjects and therefore uninformative about any one of them.</p>
+      <p>So a claim that a GAN &ldquo;recovers detail&rdquo; in ULF enhancement has to be checked
+      against the directional cosine, not against sharpness or a power spectrum. These are
+      reimplementations on this cohort at a matched budget, not the published numbers: the
+      original LoHiResGAN was trained for 350 epochs at batch&nbsp;1 on a different cohort, and
+      our U-Net predicts a residual on top of the 64&nbsp;mT input where LoHiResGAN predicts the
+      absolute image.</p>
+      <p><b>That second caveat does not survive testing.</b> Retrained to predict the absolute
+      image with no residual anchor, the same U-Net scores 19.62 / 0.628 on T2 — slightly
+      <em>better</em> than with the anchor (+0.006 SSIM, p&nbsp;=&nbsp;0.010), and still
+      +0.083 SSIM above LoHiResGAN (p&nbsp;=&nbsp;0.002). On T1 the effect is larger:
+      0.535 against 0.520 (+0.015, p&nbsp;=&nbsp;0.004), with high-frequency recovery tripled
+      (r&nbsp;HH 0.22&nbsp;→&nbsp;0.68). The residual parameterisation was not the source of the
+      gap — the backbone and the objective are — and dropping it makes the better default. It
+      is the best T1 model in this study.</p>
+    </div>
+    <div class="stack g12 col">
+      <h4>Reported metrics</h4>
+      <ul>
+        <li><b>Brain-masked PSNR, SSIM, NRMSE</b> — primary. Whole-image versions carried for
+        comparability.</li>
+        <li><b>Per-sub-band residual ratio r</b> — did the model move far enough? An identity
+        map scores 0.</li>
+        <li><b>Per-sub-band directional cosine</b> — did it move the right way? Separates
+        “sharpened something” from “sharpened this subject”.</li>
+        <li><b>High-frequency power error</b> — log ratio of power above r = 32 against the 3T
+        reference. Zero means matched sharpness; the L1 U-Net sits at −0.27.</li>
+      </ul>
+    </div>
+    <div class="stack g12 col">
+      <h4>Prior art this is measured against</h4>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="lab">Work</th><th>Venue</th><th>Paired</th><th class="lab">Approach</th></tr></thead>
+          <tbody>
+            <tr><td class="lab">LoHiResGAN</td><td>Sci Rep 2023</td><td>yes</td><td class="lab">ResNet-block pix2pix, L1(100) + SSIM</td></tr>
+            <tr><td class="lab">LowGAN</td><td>Radiology 2025</td><td>yes</td><td class="lab">three orthogonal-plane pix2pix + 3D U-Net fusion</td></tr>
+            <tr><td class="lab">SFNet</td><td>MICCAI 2024</td><td>yes</td><td class="lab">swinUNETRv2 + GAN, latent-diffusion augmentation</td></tr>
+            <tr><td class="lab">INR style transfer</td><td>MICCAI 2025</td><td>no</td><td class="lab">implicit representation, unsupervised</td></tr>
+            <tr><td class="lab">ULF-EnC entries</td><td>MICCAI challenge</td><td>yes</td><td class="lab">segmentation-guided adversarial; Resfusion</td></tr>
+            <tr><td class="lab">Restormer-GAN / 3D U-Net</td><td>MICCAI 2026</td><td>yes</td><td class="lab">transformer GAN; multi-sequence 3D U-Net</td></tr>
+            <tr><td class="lab">ULF-Synth</td><td>2026</td><td>no</td><td class="lab">hand-designed physics simulation + spatial-frequency loss</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24 col">
+    <div class="stack g12">
+      <div class="eyebrow">Next</div>
+      <h2>What is still open</h2>
+    </div>
+    <ol>
+      <li><b>Seed variance.</b> Every number here is a single seed. The pipeline is exactly
+      deterministic — the same configuration run twice agreed to four decimals — so differences
+      between arms are not run-to-run noise, but several reported effects are +0.005 to +0.04
+      SSIM and deserve 3–5 seeds before submission.</li>
+      <li><b>Close the texture deficit.</b> Regression wins direction and loses high-frequency
+      power; adversarial training wins the power and loses direction. Nothing here achieves
+      both, and on T1 the two sit at opposite ends (r&nbsp;HH 0.22 against 0.98). A critic
+      applied only in the sub-bands where the cosine is already high is the obvious next
+      thing to try.</li>
+      <li><b>Domain-randomise the learned operator.</b> Its output sits closer to the unpaired
+      64&nbsp;mT pool than a genuinely different real cohort does, which signals
+      under-dispersion rather than realism. Sampling the operator per batch should widen it.</li>
+      <li><b>Subject-conditional conformal calibration.</b> Marginal coverage is met while one
+      subject in twenty is under-covered, and more calibration subjects do not fix it.</li>
+      <li><b>3D.</b> Everything here is 2.5D on three axial slices. The within-subject
+      adjacent-slice cosine of 0.75–0.95 says through-plane context is genuinely informative, and
+      LowGAN's orthogonal-plane fusion exists because of it.</li>
+      <li><b>Downstream validation.</b> Image metrics are a proxy. Tissue segmentation and
+      regional volumetry agreement with the real 3T is what the clinical literature reports, and
+      it needs a segmentation tool plus the original NIfTI volumes rather than the 2D stacks.</li>
+      <li><b>Reader study.</b> The strongest claims in this literature are blinded radiologist
+      preference and diagnostic acceptability. Nothing here substitutes for it.</li>
+      <li><b>Confirm the corpus count.</b> 185 subject runs, not 356, in the processed array.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="col stack g8">
+    <p>Code, configs and per-subject result records: <code>/mnt/G/Projects/ULF-MICCAI</code> —
+    <code>ulfkit/</code> for data, metrics and training, <code>exp/</code> for the runs,
+    <code>out/</code> for per-subject JSON, <code>FINDINGS.md</code> for the running record.</p>
+    <p>Metrics are brain-masked unless labelled whole-image. The 10-subject test list is
+    unchanged from the predecessor project's seed-42 split.</p>
+  </div>
+</footer>
+
+</div>

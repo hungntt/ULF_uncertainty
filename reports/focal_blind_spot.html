@@ -1,0 +1,503 @@
+<title>The Focal Blind Spot</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column, full-width data bands; every claim paired with its counter-measurement. */
+:root{
+  --bg:#fbfcfd; --surface:#f1f5f8; --sunk:#e7edf2;
+  --ink:#0f171e; --ink-2:#4d5b69; --ink-3:#74828f;
+  --rule:#dce4eb; --rule-2:#c3cfd9;
+  --signal:#1a5c9e; --miss:#a4402c; --ok:#19704d; --warn:#846009;
+  --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1117; --surface:#141c25; --sunk:#1b242f;
+  --ink:#e8eef4; --ink-2:#97a5b3; --ink-3:#718090;
+  --rule:#222e3b; --rule-2:#31404f;
+  --signal:#6fa9e4; --miss:#e08b74; --ok:#4fb78a; --warn:#d2a443;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0c1117; --surface:#141c25; --sunk:#1b242f;
+  --ink:#e8eef4; --ink-2:#97a5b3; --ink-3:#718090;
+  --rule:#222e3b; --rule-2:#31404f;
+  --signal:#6fa9e4; --miss:#e08b74; --ok:#4fb78a; --warn:#d2a443;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;margin:0;
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.wrap{max-width:860px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));}
+section{padding-block:38px;border-top:1px solid var(--rule)}
+section:first-of-type{border-top:0}
+.stack{display:flex;flex-direction:column}
+.g8{gap:8px}.g14{gap:14px}.g22{gap:22px}.g30{gap:30px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,5.2vw,3rem);line-height:1.12;margin:0;
+  letter-spacing:-.018em;text-wrap:balance}
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.4rem,3.4vw,1.95rem);line-height:1.2;margin:0;
+  letter-spacing:-.012em;text-wrap:balance}
+h3{font-family:var(--sans);font-weight:600;font-size:1.02rem;margin:0;letter-spacing:-.004em}
+p{margin:0;max-width:66ch}
+.eyebrow{font-family:var(--mono);font-size:.715rem;letter-spacing:.13em;text-transform:uppercase;color:var(--signal);font-weight:500}
+.lede{font-size:1.1rem;color:var(--ink-2);max-width:62ch}
+.muted{color:var(--ink-3)}
+.sm{font-size:.9rem;color:var(--ink-2);max-width:68ch}
+b{font-weight:600}
+.n{font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums}
+.miss{color:var(--miss)}.ok{color:var(--ok)}.sig{color:var(--signal)}
+
+/* the page's structural device: what the metric reports, against what actually happened */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.pair>div{background:var(--surface);padding:18px 18px 20px;display:flex;flex-direction:column;gap:7px;min-width:0}
+.pair .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.pair .v{font-family:var(--mono);font-size:1.62rem;font-weight:500;line-height:1}
+.pair .d{font-size:.88rem;color:var(--ink-2)}
+@media(max-width:520px){.pair{grid-template-columns:1fr}}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px}
+.stat{border-left:2px solid var(--rule-2);padding:3px 0 3px 13px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.stat.on{border-left-color:var(--signal)}
+.stat .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.stat .v{font-family:var(--mono);font-size:1.5rem;font-weight:500;line-height:1.1}
+.stat .d{font-size:.82rem;color:var(--ink-2);line-height:1.45}
+
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:.89rem;min-width:420px}
+th,td{padding:9px 13px;text-align:right;border-bottom:1px solid var(--rule);white-space:nowrap}
+th{font-family:var(--mono);font-size:.69rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:500;
+  background:var(--sunk);border-bottom:1px solid var(--rule-2)}
+th.l,td.l{text-align:left;white-space:normal;min-width:170px}
+td{font-family:var(--mono);font-variant-numeric:tabular-nums}
+td.l{font-family:var(--sans)}
+tbody tr:last-child td{border-bottom:0}
+tr.hi td{background:var(--surface)}
+tr.base td{color:var(--ink-3)}
+
+.note{background:var(--surface);border-left:2px solid var(--signal);padding:15px 17px;border-radius:0 3px 3px 0;font-size:.93rem;max-width:68ch}
+.note.warn{border-left-color:var(--warn)}
+.note b{color:var(--ink)}
+figure{margin:0;display:flex;flex-direction:column;gap:9px}
+figure img{width:100%;border:1px solid var(--rule);border-radius:3px;display:block}
+figcaption{font-size:.84rem;color:var(--ink-2);max-width:72ch}
+ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:7px;max-width:66ch}
+li::marker{color:var(--ink-3)}
+hr{border:0;border-top:1px solid var(--rule);margin:0}
+.foot{font-size:.82rem;color:var(--ink-3);padding-block:30px}
+</style>
+
+<div class="wrap">
+
+<section>
+  <div class="stack g22">
+    <div class="eyebrow">64 mT → 3T synthesis · evaluation</div>
+    <h1>A lesion is 0.02% of the image. Every metric we report averages the other 99.98%.</h1>
+    <p class="lede">Ultra-low-field MRI enhancement is evaluated with SSIM and PSNR, and increasingly
+    with a downstream task. Across six trained enhancers, neither tells you whether a small lesion
+    survives the synthesis. The downstream task is the worse of the two.</p>
+    <div class="stats">
+      <div class="stat"><div class="k">SSIM vs retention</div><div class="v">+0.03</div>
+        <div class="d">Rank correlation across six pipelines. No relationship.</div></div>
+      <div class="stat"><div class="k">Task vs retention</div><div class="v miss">−0.43</div>
+        <div class="d">The downstream proxy is anti-correlated with lesion survival.</div></div>
+      <div class="stat on"><div class="k">Detectability map</div><div class="v sig">0.919</div>
+        <div class="d">AUROC ± 0.006 over four seeds, predicting erasure directly.</div></div>
+      <div class="stat"><div class="k">Validated on</div><div class="v">+0.023</div>
+        <div class="d">Gap between real focal structure and a size-matched phantom.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g22">
+    <div class="stack g14">
+      <div class="eyebrow">The finding</div>
+      <h2>The model you pick on SSIM is not the model that keeps lesions</h2>
+      <p>Six enhancers trained on the same 40 paired subjects, scored on the same locked ten.
+      Lesions of known size and contrast are inserted into the 3T, carried through the forward
+      operator, and measured in the output: <b>retention</b> is the fraction of a lesion's
+      core-minus-ring contrast that survives.</p>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="l">enhancer</th><th>SSIM</th><th>retention</th><th>% erased</th></tr></thead>
+        <tbody>
+          <tr><td class="l">U-Net L1</td><td>0.622</td><td>0.354</td><td>41.5%</td></tr>
+          <tr><td class="l">U-Net L1+SSIM</td><td>0.655</td><td>0.409</td><td>34.2%</td></tr>
+          <tr><td class="l">U-Net absolute</td><td>0.628</td><td>0.356</td><td>39.0%</td></tr>
+          <tr class="hi"><td class="l">cGAN / pix2pix</td><td>0.590</td><td class="ok">0.427</td><td class="ok">28.3%</td></tr>
+          <tr><td class="l">LoHiResGAN</td><td>0.545</td><td>0.347</td><td>40.5%</td></tr>
+          <tr class="hi"><td class="l">D1 calibrated corpus</td><td>0.639</td><td class="miss">0.314</td><td class="miss">45.2%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Rank correlation between SSIM and retention: <b class="n">+0.03</b>. The two rankings
+    invert at both ends. The pipeline that is second-best on SSIM is the worst of six at keeping
+    lesions; the one that keeps the most is fifth on SSIM.</p>
+    <div class="note warn">
+      <b>Read the size of the effect carefully.</b> These are one trained model per architecture.
+      Three seeds each of U-Net L1 and pix2pix put the pix2pix figure above at the top of its range:
+      the seed means are <span class="n">0.372 ± 0.048</span> against <span class="n">0.345 ± 0.009</span>,
+      so the margin falls from +0.073 to <b>+0.027</b> and the gap is smaller than the spread within
+      one architecture. The <em>direction</em> holds at every seed — SSIM prefers U-Net, retention
+      prefers pix2pix — but the headline is the correlation, not the margin.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g22">
+    <div class="stack g14">
+      <div class="eyebrow">The obvious reply, tested</div>
+      <h2>“Then evaluate on a downstream task.” It is worse.</h2>
+      <p>The standard answer to a metric that fails is to replace it with a task. So: fit a
+      three-component intensity mixture to the within-brain voxels of the <b>real</b> 3T, apply that
+      same fitted model to the synthesised image, and measure tissue agreement. Fitting on the target
+      makes this the easy version — the classifier is tuned to the truth, and only the synthesised
+      intensities have to land in the right places.</p>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="l">pipeline</th><th>SSIM</th><th>tissue Dice</th><th>% reclassified</th><th>retention</th></tr></thead>
+        <tbody>
+          <tr class="base"><td class="l">identity — the 64 mT input</td><td>—</td><td>0.669</td><td>25.0%</td><td>—</td></tr>
+          <tr><td class="l">U-Net L1</td><td>0.622</td><td>0.730</td><td>19.6%</td><td>0.354</td></tr>
+          <tr><td class="l">U-Net L1+SSIM</td><td>0.655</td><td>0.723</td><td>19.6%</td><td>0.409</td></tr>
+          <tr><td class="l">U-Net absolute</td><td>0.628</td><td>0.725</td><td>19.3%</td><td>0.356</td></tr>
+          <tr class="hi"><td class="l">cGAN / pix2pix</td><td>0.590</td><td>0.720</td><td>20.5%</td><td class="ok">0.427</td></tr>
+          <tr><td class="l">LoHiResGAN</td><td>0.545</td><td>0.680</td><td>22.1%</td><td>0.347</td></tr>
+          <tr class="hi"><td class="l">D1 calibrated corpus</td><td>0.639</td><td class="ok">0.741</td><td class="ok">17.9%</td><td class="miss">0.314</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pair">
+      <div>
+        <div class="k">Task agrees with</div>
+        <div class="v sig">SSIM &nbsp;+0.60</div>
+        <div class="d">and with the fraction of lesions <em>erased</em>, at <b>+0.66</b>.</div>
+      </div>
+      <div>
+        <div class="k">Task disagrees with</div>
+        <div class="v miss">retention &nbsp;−0.43</div>
+        <div class="d">Models that destroy more lesions score <em>higher</em> on the task.</div>
+      </div>
+    </div>
+    <p>The extremes state it without the statistics. The <b>best</b> pipeline on the downstream task
+    is the <b>worst of six</b> on lesion retention — 45% of lesions erased. The best on retention is
+    fifth of six on the task.</p>
+    <p class="sm">Same caveat as above: six pipelines, one run each, so a −0.43 coefficient at n = 6
+    is not significant and the weight sits on the extremes. The proxy is intensity-only and fitted on
+    the real image, which makes it a floor-level task rather than a clinical one. Every pipeline beats
+    the raw 64 mT input, so this is a finding about <em>ranking</em>, not about whether synthesis is
+    worth doing.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g22">
+    <div class="stack g14">
+      <div class="eyebrow">Why</div>
+      <h2>Focal and global accuracy are in tension</h2>
+      <p>Both measures are averages over brain tissue. Measured directly over sampled training
+      batches, an inserted lesion of radius 2–6 px covers <b class="n">0.009–0.043%</b> of the image —
+      roughly one five-thousandth of an L1 gradient.</p>
+    </div>
+    <p>Smoothing harder improves bulk tissue agreement and erases more focal structure. That is a real
+    trade, and a model sits somewhere on it. No global measure — hand-made or learned, image-level or
+    task-level — reports <em>which side</em>.</p>
+    <div class="note">
+      <b>So the argument is not that image metrics are crude.</b> It is that a focal question needs a
+      focal measure. Reporting a downstream task alongside SSIM adds a second view of the same
+      99.98% of the image, and in this cohort it is the more misleading of the two.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g22">
+    <div class="stack g14">
+      <div class="eyebrow">What to report instead</div>
+      <h2>Predict erasure, not error</h2>
+      <p>A U-Net trained on sparse supervision at inserted lesion sites, answering one counterfactual
+      about the pipeline it audits: <em>if a lesion of this size and contrast were here, would this
+      synthesis erase it?</em> Supervision is possible because the cohort is paired — 50 subjects with
+      both a 64 mT and a 3T acquisition — so the error can be learned rather than guessed from
+      model-internal signals.</p>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="l">score</th><th>AUROC (erased)</th><th>Spearman (retention)</th></tr></thead>
+        <tbody>
+          <tr class="hi"><td class="l"><b>detectability map</b></td><td class="ok">0.919 ± 0.006</td><td>0.786 ± 0.008</td></tr>
+          <tr><td class="l">lesion radius alone</td><td>0.876</td><td>0.699</td></tr>
+          <tr><td class="l">intensity-error QA map</td><td class="miss">0.360</td><td class="miss">−0.280</td></tr>
+          <tr><td class="l">deep-ensemble disagreement</td><td class="miss">0.347</td><td class="miss">−0.296</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The two uncertainty baselines are <b>below chance</b> — not uninformative but anti-correlated.
+    Where the enhancer's intensity error is largest is where lesions are most likely to <em>survive</em>,
+    because both track edges and texture. Predicting intensity error is the wrong question.</p>
+
+    <div class="stack g14" style="margin-top:6px">
+      <h3>It is not a dressed-up edge detector</h3>
+      <p class="sm">Radius is an input to the map, so the test that matters is within one size band.
+      Held-out R² for seven hand-crafted local descriptors — gradient, variance, depth from the brain
+      edge, intensity, a noise proxy, model change, contrast — against the map alone:</p>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="l">lesion size</th><th>hand-crafted descriptors</th><th>the map</th></tr></thead>
+        <tbody>
+          <tr><td class="l">4 mm</td><td class="miss">−0.118</td><td class="ok">+0.171</td></tr>
+          <tr><td class="l">6 mm</td><td class="miss">−0.092</td><td class="ok">+0.271</td></tr>
+          <tr><td class="l">8 mm</td><td class="miss">−0.073</td><td class="ok">+0.132</td></tr>
+          <tr><td class="l">12 mm</td><td class="miss">−0.048</td><td class="ok">+0.122</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sm">The descriptors are worse than predicting the mean at every size; the map is positive
+    at every size. Whatever it reads, it is not a threshold on gradient or variance.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g30">
+    <div class="stack g14">
+      <div class="eyebrow">Does it survive contact with reality</div>
+      <h2>Three ways it could have been an artefact of its own setup</h2>
+    </div>
+
+    <div class="stack g14">
+      <h3>1 · Lesion families it never saw</h3>
+      <p class="sm">Trained on isotropic hyperintense Gaussians; tested on five families it was never
+      shown. AUROC falls by 0.04–0.14 and stays well above chance throughout.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th class="l">family</th><th>% erased</th><th>AUROC</th></tr></thead>
+          <tbody>
+            <tr class="base"><td class="l">isotropic — the training family</td><td>32%</td><td>0.939</td></tr>
+            <tr><td class="l">elongated, 3:1 aspect</td><td>31%</td><td>0.901</td></tr>
+            <tr><td class="l">faint, below the trained contrast range</td><td>44%</td><td>0.893</td></tr>
+            <tr><td class="l">ring / annulus</td><td>36%</td><td>0.838</td></tr>
+            <tr><td class="l">hypointense — sign flipped</td><td class="miss">68%</td><td>0.800</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sm">The hypointense row carries a clinical finding of its own: dark lesions are erased
+      at twice the rate of bright ones. Retrained on both polarities the map reaches 0.914, so removing
+      that restriction costs about 0.01 AUROC.</p>
+    </div>
+
+    <hr>
+
+    <div class="stack g14">
+      <h3>2 · Enhancers it never saw</h3>
+      <p class="sm">One fixed map, scored against all six pipelines. AUROC <b class="n">0.857–0.923</b>,
+      with the within-size figure almost flat at 0.78–0.80 — a spread no wider than its own seed noise.
+      A map trained for one pipeline ranks sites correctly under five others.</p>
+    </div>
+
+    <hr>
+
+    <div class="stack g14">
+      <h3>3 · Real focal structure, not inserted blobs</h3>
+      <p class="sm">Screening all 50 paired subjects for focal white-matter hyperintensities — excluding
+      CSF, requiring a white-matter background and persistence across slices — leaves <b>27 distinct
+      features in 9 of 50 subjects</b>, about 5 mm, all periventricular. They are not confirmed
+      pathology; they are real structure with real texture and edges, which is what the phantom stands
+      in for.</p>
+      <p class="sm">Inpainting each feature out gives a lesion-free baseline. One arm adds the real
+      feature back; the other adds a Gaussian <b>matched on the feature's own fitted extent</b>. Each
+      subject is scored by the cross-fit enhancer from the fold that excluded it.</p>
+      <div class="pair">
+        <div>
+          <div class="k">Real focal feature</div>
+          <div class="v">0.528</div>
+          <div class="d">retention, scored on its fitted extent</div>
+        </div>
+        <div>
+          <div class="k">Matched Gaussian phantom</div>
+          <div class="v">0.505</div>
+          <div class="d">gap <b class="ok">+0.023</b>, and +0.023 again with a feather-free inpaint</div>
+        </div>
+      </div>
+      <p class="sm">A Gaussian phantom predicts real-structure behaviour, <em>provided it is matched on
+      effective extent rather than on a thresholded core</em>. Real focal features have flat cores and
+      soft shoulders: their effective radius is about <b>1.5×</b> the radius a threshold measures. Match
+      on the core instead and the apparent gap inflates to +0.17–0.26 — which is where this result
+      started, and what the profile fit explains away.</p>
+      <figure>
+        <img src="fig8_real.png" alt="Four rows, one per subject, two of them locked-test subjects. Columns: the 3T slice containing a real focal hyperintensity, the same slice with the feature inpainted out, the inpainted slice with a matched Gaussian added, and the pipeline's output for each. Retentions shown are median cases for each subject.">
+        <figcaption>One site per subject, each the <b>median</b> case for that subject rather than its
+        best. Columns two and three build the comparison: the feature is inpainted out to make a
+        lesion-free baseline, then either the real feature or a matched Gaussian is put back.</figcaption>
+      </figure>
+      <p class="sm">The map, trained entirely on phantoms, predicts erasure of these real features at
+      <b class="n">0.705</b> — <b class="n">0.784</b> when asked about the feature's effective extent
+      rather than its thresholded core. Both sit inside the within-size band it reaches on phantoms.</p>
+    </div>
+
+    <hr>
+
+    <div class="stack g14">
+      <h3>And the closed loop does not bite</h3>
+      <p class="sm">Every number above feeds the enhancer a 64 mT image produced by a learned forward
+      operator, which is the usual reason to distrust a study like this. The cohort has <b>real</b>
+      64 mT acquisitions, and the two label sets share <b>2934 identical sites</b> — same slice, same
+      centre, same radius, same contrast — differing only in which image the enhancer was given.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th class="l">on 2934 matched sites</th><th>simulated input</th><th>real 64 mT input</th></tr></thead>
+          <tbody>
+            <tr><td class="l">mean retention</td><td>0.362</td><td>0.358</td></tr>
+            <tr><td class="l">% erased</td><td>33%</td><td>34%</td></tr>
+            <tr class="hi"><td class="l">correlation between the two pipelines</td><td colspan="2" style="text-align:center" class="ok">ρ = +0.942</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sm">A lesion's fate barely depends on whether its input was rendered or really acquired,
+      and retraining the map on real inputs changes nothing measurable (+0.034 AUROC, CI crossing zero).</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g22">
+    <div class="stack g14">
+      <div class="eyebrow">The deliverable</div>
+      <h2>A size-stratified statement of what the synthesis can be trusted for</h2>
+      <p>The map is conditional on the lesion it is asked about, so a single flagged fraction would be
+      misleading. Conformal risk control turns it into a distribution-free guarantee: at a certified
+      15% missed-finding rate, the fraction of <b>brain</b> where a lesion of that size cannot be
+      trusted.</p>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="l">lesion size</th><th>faint (c = 0.12)</th><th>clear (c = 0.25)</th></tr></thead>
+        <tbody>
+          <tr><td class="l">4 mm</td><td class="miss">100.0%</td><td class="miss">100.0%</td></tr>
+          <tr><td class="l">6 mm</td><td>80.6%</td><td>63.2%</td></tr>
+          <tr><td class="l">8 mm</td><td>30.6%</td><td>24.5%</td></tr>
+          <tr class="hi"><td class="l">12 mm</td><td class="ok">3.6%</td><td class="ok">3.9%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Read as a clinical statement: at a 15% guaranteed miss rate, <b>a 4 mm lesion cannot be trusted
+    anywhere in the image; a 12 mm lesion can be trusted in 96% of it.</b> The 100% row is not the map
+    failing — it is the map refusing to certify something the pipeline genuinely cannot do, since a
+    4 mm lesion retains about 17% of its contrast.</p>
+    <div class="note warn">
+      <b>The size column is a Gaussian radius, not a calliper.</b> Real focal structure behaves like an
+      object about 1.5× wider than its suprathreshold diameter, so a finding a reader would measure at
+      4 mm sits nearer the 6 mm row. A specification handed to a radiologist needs a stated convention
+      for that conversion, and the conversion is not the identity.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g22">
+    <div class="stack g14">
+      <div class="eyebrow">What it is not</div>
+      <h2>It cannot compare models, and that is a property</h2>
+      <p>The map's input includes the prediction of the pipeline it audits. Across six enhancers whose
+      true retention spans 0.314–0.427, its mean prediction spans 0.317–0.326.</p>
+    </div>
+    <div class="pair">
+      <div>
+        <div class="k">Variance between sites</div>
+        <div class="v sig">99.7%</div>
+        <div class="d">of the map's output</div>
+      </div>
+      <div>
+        <div class="k">Variance between architectures</div>
+        <div class="v miss">0.0%</div>
+        <div class="d">against 2.4% in the truth it is predicting</div>
+      </div>
+    </div>
+    <p>It generalises to unseen enhancers <em>because it never depended on the enhancer</em>. The
+    conditioning was redundant by construction: with one enhancer in training, the prediction is a
+    deterministic function of the input and carries nothing new, so nothing in the objective could have
+    taught the map to read it.</p>
+    <p>Training a map across three enhancers, so that pipeline identity does carry signal, does not fix
+    it — predicted spread 0.008 against an actual 0.113, the same ratio — and within-size accuracy falls.
+    Two attempts have failed, so this is a characterised property, not a gap awaiting a later version.</p>
+    <div class="note">
+      <b>So describe it accurately.</b> Not “a QA map for this pipeline”, but a map of <em>where this
+      class of synthesis loses lesions</em> — a property of the site and the lesion. It must not be used
+      to choose between models, which is the first thing a reader would try.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g22">
+    <div class="stack g14">
+      <div class="eyebrow">A third instance of the same blindness</div>
+      <h2>The T2-driven route fabricates lesion polarity</h2>
+      <p>Direction-2 found that 64 mT T2 predicts 3T T1 better than 64 mT T1 does, and on every image
+      metric the T2-driven route wins. It is not transferring the lesion. It is applying the
+      population-average T2→T1 coupling.</p>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="l">T1/T2 polarity</th><th>retention</th><th>% inverted</th></tr></thead>
+        <tbody>
+          <tr><td class="l">T1-dark, canonical</td><td class="ok">0.671</td><td>4%</td></tr>
+          <tr class="hi"><td class="l">T1-<b>bright</b> — haemorrhage, fat, contrast enhancement</td><td class="miss">−0.386</td><td class="miss">95%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>For a lesion that violates the usual coupling, the reader is shown a <b>dark lesion where the
+    truth is bright</b>, in a clean and plausible image, 95% of the time. That is worse than an erasure,
+    and no population-level metric can see a per-lesion sign flip.</p>
+    <p class="sm">It survives both obvious repairs. Training with polarity-violating lesions changes
+    nothing (88% → 87%); adding a lesion-weighted loss worth as much as the whole-brain term changes
+    nothing either (86–91%), though it does cut spurious inversion on <em>canonical</em> lesions from 10%
+    to 2%. The evidence is present — polarity is recoverable from the 64 mT T1 input at AUROC 0.972 — and
+    the architecture hands it to the model through a skip connection, which the residual branch then
+    cancels. The inversion is a consequence of a trade the model makes everywhere else, which is why
+    flagging it is the near-term answer rather than training it away.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g22">
+    <div class="stack g14">
+      <div class="eyebrow">Limits</div>
+      <h2>What would have to be true before any of this is clinical</h2>
+    </div>
+    <ul>
+      <li><b>No clinician has read anything here.</b> The 27 real features are unconfirmed, all
+      periventricular, all about 5 mm. Intensity error has already been shown to be a poor proxy for
+      clinical salience, and nothing replaces a radiologist.</li>
+      <li><b>One site, ten locked test subjects, one field-strength pair.</b> Every number is from a
+      single cohort of 50 paired scans.</li>
+      <li><b>The headline correlations rest on six pipelines, one trained model each.</b> A seed study
+      on two of them cut the architecture margin by more than half; the same exercise for the
+      downstream-task result is running, and until it lands the weight sits on the extremes rather than
+      on the coefficients.</li>
+      <li><b>Lesions are simulated, and the validation of that is narrow.</b> The phantom reproduces
+      real-structure retention to within 0.023, but across 27 features in one size band and one
+      location.</li>
+      <li><b>The guarantee is calibrated per pipeline on phantom lesions.</b> It should not be quoted
+      for real structure without its own calibration set.</li>
+    </ul>
+    <div class="note">
+      <b>What this is.</b> A methods and evaluation study: the claim is about how ULF enhancement is
+      measured, backed by a controlled comparison and a measure that is validated against real structure.
+      It is not a clinical study and does not read as one.
+    </div>
+  </div>
+</section>
+
+<div class="foot">
+  64 mT → 3T synthesis · 50 paired subjects, 40 train / 10 locked test · all metrics brain-masked ·
+  retention, detectability and conformal definitions as given above.
+</div>
+
+</div>

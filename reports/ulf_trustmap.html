@@ -1,0 +1,1362 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>64 mT Trust Maps</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one measured argument column; tables, figures and verdict rails break wider. */
+:root{
+  --paper:#f6f7f8; --surface:#ffffff; --surface-2:#eef1f4;
+  --ink:#0e1419; --ink-2:#4a5560; --ink-3:#78848f;
+  --rule:#dfe3e7; --rule-strong:#c3cad1;
+  --accent:#0f6fc4; --accent-soft:#e7f0fa;
+  --ulf:#c4652f; --ok:#1b7f55; --warn:#9c6000; --stop:#b2403f;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --measure:68ch;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0e1216; --surface:#161b21; --surface-2:#1d242b;
+  --ink:#e8ecef; --ink-2:#a8b3bd; --ink-3:#7b8792;
+  --rule:#28313a; --rule-strong:#3a4650;
+  --accent:#5aa6ef; --accent-soft:#16293c;
+  --ulf:#e08a53; --ok:#3fae7d; --warn:#d99a33; --stop:#e07a79;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0e1216; --surface:#161b21; --surface-2:#1d242b;
+  --ink:#e8ecef; --ink-2:#a8b3bd; --ink-3:#7b8792;
+  --rule:#28313a; --rule-strong:#3a4650;
+  --accent:#5aa6ef; --accent-soft:#16293c;
+  --ulf:#e08a53; --ok:#3fae7d; --warn:#d99a33; --stop:#e07a79;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0}
+.wrap{max-width:980px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 72px}
+.col{max-width:var(--measure)}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;font-weight:600;letter-spacing:-.01em}
+h1{font-size:clamp(2.1rem,5.4vw,3.2rem);line-height:1.08;letter-spacing:-.025em}
+h2{font-size:clamp(1.45rem,3.2vw,1.95rem);line-height:1.15}
+h3{font-size:1.15rem;line-height:1.25}
+h4{font-size:1rem;font-family:var(--body);font-weight:600}
+p{margin:0}
+.eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.lede{font-size:1.08rem;color:var(--ink-2);max-width:62ch}
+.stack{display:flex;flex-direction:column}
+.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g24{gap:24px}.g32{gap:32px}.g48{gap:48px}
+
+header.masthead{border-bottom:1px solid var(--rule-strong);padding-block:48px 28px;
+  display:flex;flex-direction:column;gap:18px}
+.fieldline{display:flex;align-items:baseline;gap:10px;font-family:var(--mono);
+  font-size:.82rem;color:var(--ink-3);flex-wrap:wrap}
+.fieldline b{color:var(--ulf);font-weight:500}
+.fieldline i{font-style:normal;color:var(--accent)}
+
+section{padding-block:40px;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:0}
+
+figure{margin:0;display:flex;flex-direction:column;gap:10px}
+figure img{display:block;width:100%;max-width:100%;border-radius:4px;background:#fff;
+  border:1px solid var(--rule);padding:6px}
+figcaption{font-size:.84rem;color:var(--ink-2);max-width:74ch}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:5px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:min(100%,560px)}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--rule);white-space:nowrap}
+thead th{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+td.lab{white-space:normal;min-width:180px}
+tr.best td{background:var(--accent-soft)}
+tr.base td{color:var(--ink-2)}
+.win{color:var(--ok);font-weight:500}
+.loss{color:var(--stop)}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:6px;
+  padding:18px;display:flex;flex-direction:column;gap:7px;min-width:0}
+.card .k{font-family:var(--mono);font-size:1.5rem;font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;line-height:1.1}
+.card .t{font-size:.76rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+.card .d{font-size:.85rem;color:var(--ink-2)}
+
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:0 18px;align-items:start;
+  border-left:3px solid var(--rule-strong);padding-left:20px}
+.verdict.ok{border-left-color:var(--ok)}
+.verdict.no{border-left-color:var(--stop)}
+.verdict .mark{font-family:var(--mono);font-size:.74rem;font-weight:500;color:var(--surface);
+  background:var(--ink);border-radius:3px;padding:3px 7px;margin-top:5px;line-height:1.4}
+.verdict.ok .mark{background:var(--ok)}
+.verdict.no .mark{background:var(--stop)}
+
+ul,ol{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:7px}
+li::marker{color:var(--ink-3)}
+code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:3px}
+.note{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--warn);
+  border-radius:0 5px 5px 0;padding:14px 18px;font-size:.92rem;color:var(--ink-2)}
+.note b{color:var(--ink)}
+.note.ok{border-left-color:var(--ok)}
+footer{padding-block:34px 0;font-size:.85rem;color:var(--ink-3);border-top:1px solid var(--rule-strong)}
+@media (max-width:560px){
+  .verdict{grid-template-columns:1fr;gap:10px;padding-left:14px}
+  th,td{padding:8px 10px}
+}
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">Explainability &amp; uncertainty · 64 mT → 3T synthesis · 22 October 2026</div>
+  <h1>Telling a radiologist which parts of a synthesised 3T image not to trust</h1>
+  <p class="lede">A map that flags unreliable regions, calibrated so that what it leaves
+  unflagged is a promise — and a controlled lesion study showing which promise it is
+  actually making. Plus four things that did not work, and the reason the flagged error has
+  to go to a human rather than back into the model.</p>
+  <div class="fieldline">
+    <span>50 paired <b>64 mT</b>/<i>3T</i> subjects</span><span>·</span>
+    <span>48 unpaired 64 mT</span><span>·</span>
+    <span>10 locked for test</span><span>·</span>
+    <span>T2 works, T1 does not</span>
+  </div>
+</header>
+
+<section>
+  <div class="stack g24 col">
+    <div class="stack g12">
+      <div class="eyebrow">What this is</div>
+      <h2>The map has to stand alone</h2>
+    </div>
+    <p>At deployment there is no 3T to check against. The reader has the 64 mT scan and a
+    synthesised 3T image, and nothing else. So the only useful output is a map saying
+    <em>do not trust the synthetic detail here — read the 64 mT instead</em>, and the only
+    guarantee worth making is a <b>false-negative</b> one: what the map leaves unflagged
+    must actually be reliable, because nobody will check it.</p>
+    <p>That reframes explainability as a prediction task with a measurable ground truth.
+    It also makes the paired cohort decisive. Posterior sampling, MC-dropout and sensitivity
+    maps all <em>guess</em> at error from model-internal signals. With 50 paired subjects the
+    error can be learned <b>supervised</b> — which no synthesis-only or domain-randomised
+    pipeline can do.</p>
+  </div>
+
+  <div class="cards" style="margin-top:28px">
+    <div class="card">
+      <div class="t">Finds bad voxels</div>
+      <div class="k" style="color:var(--ok)">0.820</div>
+      <div class="d">AUROC on T2, against 0.712 for a plain 64 mT edge map and 0.799 for a
+      4-model deep ensemble.</div>
+    </div>
+    <div class="card">
+      <div class="t">Detectability map</div>
+      <div class="k" style="color:var(--ok)">0.923</div>
+      <div class="d">AUROC for predicting lesion erasure. The intensity-based baselines score
+      0.35–0.36 — <em>below chance</em>, because they are anti-correlated with it.</div>
+    </div>
+    <div class="card">
+      <div class="t">Transfers unlabelled</div>
+      <div class="k">0.019</div>
+      <div class="d">KS distance between QA scores on paired test subjects and on 48 subjects
+      with no 3T at all. The calibration carries.</div>
+    </div>
+    <div class="card">
+      <div class="t">SSIM vs lesion preservation</div>
+      <div class="k" style="color:var(--stop)">+0.03</div>
+      <div class="d">Rank correlation across six trained enhancers. Worse, SSIM is <em>stable</em>
+      across seeds while lesion retention is not — it conceals the instability it cannot see.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">The deliverable</div>
+      <h2>What a reader would see</h2>
+      <p>Three locked-test subjects. The reader gets columns one, two and four; the 3T
+      reference and the true error exist here only to validate the map.</p>
+    </div>
+    <figure>
+      <img src="fig7_qa_T2.png" alt="Three rows, one per test subject. Columns: 64 mT input, synthesised 3T with a green contour outlining flagged regions, the 3T reference, the QA map of predicted error, and the true error. The QA map closely resembles the true error, concentrating on the cortical rim, periventricular margins and midline.">
+      <figcaption>The green contour is the conformally calibrated threshold. Flagged regions
+      concentrate on the cortical rim, periventricular margins and the midline — and the
+      predicted map visibly tracks the true error beside it. Between 16% and 19% of the
+      brain is flagged in these three subjects.</figcaption>
+    </figure>
+    <div class="stack g12 col">
+      <h4>How it is built</h4>
+      <ol>
+        <li><b>Cross-fitted enhancer.</b> A model's residuals on its own training subjects
+        are far smaller than on unseen ones, so a QA map fitted to them would under-predict
+        test error. Four enhancers are trained on subject-disjoint folds; the QA model only
+        ever sees out-of-fold predictions.</li>
+        <li><b>Supervised on real error.</b> A U-Net takes the 64 mT slab and the synthesised
+        3T, and regresses the 90th percentile of |error| with a pinball loss. It never sees a
+        reference, at train or test time, so it is deployable as-is.</li>
+        <li><b>Conformal risk control</b> sets the flag threshold so the miss rate among
+        unflagged voxels is bounded.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">Does it work</div>
+      <h2>Finding the badly synthesised voxels</h2>
+      <p>The error threshold τ is the 90th percentile of calibration error (T2 0.1597,
+      T1 0.2349), so about 10% of test voxels count as "bad". The edge-magnitude row is the
+      one that matters: every uncertainty map in this literature risks being an elaborate
+      edge detector.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">score</th><th class="num">T2 AUROC</th><th class="num">T2 AP</th><th class="num">T1 AUROC</th><th class="num">T1 AP</th></tr></thead>
+        <tbody>
+          <tr class="best"><td class="lab">learned QA map (supervised)</td><td class="num"><span class="win">0.820 ± 0.021</span></td><td class="num"><span class="win">0.339</span></td><td class="num">0.654 ± 0.015</td><td class="num">0.161</td></tr>
+          <tr><td class="lab">deep ensemble, 4 fold models</td><td class="num">0.799 ± 0.021</td><td class="num">0.314</td><td class="num">0.664 ± 0.015</td><td class="num">0.158</td></tr>
+          <tr><td class="lab">64 mT edge magnitude</td><td class="num">0.712 ± 0.024</td><td class="num">0.239</td><td class="num">0.527 ± 0.011</td><td class="num">0.100</td></tr>
+          <tr class="base"><td class="lab">|change from the 64 mT input|</td><td class="num">0.651 ± 0.022</td><td class="num">0.211</td><td class="num">0.558 ± 0.024</td><td class="num">0.117</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <b>Is this a fair comparison?</b> Mostly not, as stated. Edge magnitude and
+      |change from input| are weak baselines, and leading with “0.820 against 0.712”
+      overstates the result. The honest comparator is the <b>deep ensemble</b>, which like
+      the QA map needs a paired cohort to train its enhancers and differs only in not using
+      the error labels.
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">supervised QA map vs free deep ensemble</th><th class="num">T2</th><th class="num">T1</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">Δ AUROC</td><td class="num"><span class="win">+0.021</span> (p 0.002)</td><td class="num"><span class="loss">−0.009</span> (p 0.027)</td></tr>
+          <tr><td class="lab">Δ average precision</td><td class="num">+0.026 (p 0.002)</td><td class="num">+0.004 (p 0.193, n.s.)</td></tr>
+          <tr><td class="lab">brain flagged at α = 0.15</td><td class="num">21.9% vs 25.1%</td><td class="num">— (map unusable)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">So the claim has to be narrower than it first looked. On T2 the supervised
+    map wins on every subject, but by <b>+0.021 AUROC and 13% less flagged area</b>, not by
+    the factor of two the edge comparison suggested. On T1 it is <b>significantly worse than
+    the free baseline</b>. If four enhancers already exist from cross-fitting, their
+    disagreement is nearly as good and costs nothing.</p>
+    <div class="stack g12 col">
+      <h4>What is still defensible about it</h4>
+      <ul>
+        <li><b>Inference inputs are identical.</b> Every method sees only the 64&nbsp;mT scan
+        and the synthesis. The QA map gets no extra information at test time.</li>
+        <li><b>Both metrics are already scale-invariant.</b> AUROC is rank-based and conformal
+        rescales every score to matched coverage, so handing the baselines supervised
+        calibration would change nothing. The margin comes from learning a different spatial
+        <em>pattern</em>, not from knowing the scale.</li>
+        <li><b>The supervision is free in this setting.</b> A paired cohort is needed to train
+        the enhancer regardless; the error is then computed, not annotated. The marginal cost
+        over the ensemble is one training run.</li>
+      </ul>
+      <p>So the useful statement is not “supervised beats unsupervised”, which is close to
+      tautological. It is: <em>given a paired cohort you already have, is a dedicated error
+      predictor worth the extra run?</em> On T2, marginally. On T1, no.</p>
+    </div>
+
+    <div class="stack g12 col">
+      <h4>The headline metric: how much must be flagged?</h4>
+      <p>α = 0.10 is <b>infeasible</b> — eight calibration subjects put the conformal-risk
+      floor at 1/(n+1) = 0.111, regardless of how good the map is. α = 0.20 is trivially
+      satisfied by flagging nothing, because τ is the calibration 90th percentile so the base
+      miss rate is 0.10 by construction. The informative window is α ∈ (0.111, 0.20).</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">T2, at α = 0.15</th><th class="num">brain flagged</th><th class="num">realised miss</th><th class="num">bad voxels caught</th></tr></thead>
+        <tbody>
+          <tr class="best"><td class="lab">learned QA map</td><td class="num"><span class="win">21.9%</span></td><td class="num">0.052</td><td class="num">64.1%</td></tr>
+          <tr><td class="lab">deep ensemble</td><td class="num">25.1%</td><td class="num">0.051</td><td class="num">65.9%</td></tr>
+          <tr><td class="lab">64 mT edge magnitude</td><td class="num">42.1%</td><td class="num">0.054</td><td class="num">71.9%</td></tr>
+          <tr class="base"><td class="lab">|change from input|</td><td class="num"><span class="loss">99.7%</span></td><td class="num">0.185</td><td class="num">99.5%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col"><b>At the same guaranteed miss rate the QA map halves the amount of brain
+    a reader must re-check</b> — 21.9% against the edge map's 42.1%. That is the quantity
+    clinical time is actually spent on.</p>
+
+    <div class="stack g12 col">
+      <h4>Flag/catch trade-off, T2</h4>
+      <p>Threshold set on calibration, measured on test. Base rate is 10.8%, so flagging 20%
+      at random would catch about 20%.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">% of brain flagged →</th><th class="num">4.7</th><th class="num">9.6</th><th class="num">19.8</th><th class="num">30.2</th><th class="num">50.8</th></tr></thead>
+        <tbody>
+          <tr class="best"><td class="lab">learned QA map</td><td class="num">19.3</td><td class="num">35.5</td><td class="num"><span class="win">60.2</span></td><td class="num">75.8</td><td class="num">90.3</td></tr>
+          <tr><td class="lab">deep ensemble</td><td class="num">19.1</td><td class="num">34.3</td><td class="num">57.8</td><td class="num">73.1</td><td class="num">88.3</td></tr>
+          <tr><td class="lab">64 mT edge magnitude</td><td class="num">14.0</td><td class="num">25.2</td><td class="num">43.6</td><td class="num">58.1</td><td class="num">76.3</td></tr>
+          <tr class="base"><td class="lab">|change from input|</td><td class="num">15.2</td><td class="num">25.6</td><td class="num">38.6</td><td class="num">48.0</td><td class="num">63.2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">The check that matters</div>
+      <h2>Does the calibration survive where there is no reference?</h2>
+      <p>The threshold was chosen on subjects that had a 3T. It carries to subjects that do
+      not only if they are exchangeable with the calibration cohort. The 48 ULF-only
+      subjects are the honest test — same scanner, no reference, used for nothing else.
+      Error cannot be measured there, but the score distribution can.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab"></th><th class="num">T2</th><th class="num">T1</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">KS distance, paired-test vs unlabelled</td><td class="num">0.0189</td><td class="num">0.0150</td></tr>
+          <tr><td class="lab">p50 / p90 / p99 ratio (unlabelled ÷ paired)</td><td class="num">0.98 / 0.97 / 0.99</td><td class="num">1.02 / 1.01 / 1.00</td></tr>
+          <tr><td class="lab">brain flagged, paired test</td><td class="num">21.4% ± 2.5</td><td class="num">74.5% ± 3.1</td></tr>
+          <tr class="best"><td class="lab">brain flagged, unlabelled</td><td class="num">19.8% ± 2.0</td><td class="num">75.9% ± 2.4</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">The distributions are nearly identical, so the exchangeability the
+    guarantee needs is not obviously violated and the threshold plausibly carries to
+    deployment. This is the check that makes the heatmap honest in the setting it is meant
+    for, and it is only possible because the project kept an unpaired 64 mT pool.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">The safety result</div>
+      <h2>Small lesions are erased, and barely flagged</h2>
+      <p>Natural pathology is absent from this cohort, but controlled lesions are not. A
+      hyperintense blob of known radius and contrast is inserted into a held-out <b>3T</b>
+      slice, pushed through a forward operator to give a 64&nbsp;mT scan that genuinely
+      contains it, and then synthesised. Everything is a paired difference against the same
+      slice with no lesion, so the underlying anatomy cancels. 5,760 measurements across the
+      10 locked subjects, and both forward operators agree to within ~0.05 retention at every
+      size — so this is a property of the synthesis, not of the operator.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">lesion diameter</th><th class="num">contrast retained</th><th class="num">QA elevation</th><th class="num">flagged at deployed threshold</th><th class="num">control sites flagged</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">4 mm</td><td class="num"><span class="loss">0.169 ± 0.029</span></td><td class="num">1.34×</td><td class="num"><span class="loss">19.4%</span></td><td class="num">10.4%</td></tr>
+          <tr><td class="lab">6 mm</td><td class="num">0.307 ± 0.037</td><td class="num">1.50×</td><td class="num">22.8%</td><td class="num">5.0%</td></tr>
+          <tr><td class="lab">8 mm</td><td class="num">0.422 ± 0.045</td><td class="num">1.57×</td><td class="num">28.1%</td><td class="num">7.9%</td></tr>
+          <tr><td class="lab">12 mm</td><td class="num">0.526 ± 0.038</td><td class="num">1.54×</td><td class="num">29.8%</td><td class="num">9.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">Every lesion-versus-control difference is significant at
+    p&nbsp;=&nbsp;0.0020 — all ten subjects move together. Retention scales with <b>size</b>
+    and barely with contrast, the signature of a resolution limit rather than an SNR one;
+    the spectral gap and the re-acquisition ceiling reached the same conclusion by two other
+    routes.</p>
+    <div class="note">
+      <b>At the threshold that would actually be deployed, 70–81% of inserted lesions pass
+      unflagged.</b> The 4&nbsp;mm case is worst on both axes at once: 83% of its contrast
+      erased, and flagged only 19.4% against a 10.4% background rate at the same sites. The
+      warning is weakest exactly where the synthesis fails hardest.
+    </div>
+    <div class="stack g12 col">
+      <h4>Why — and the fix follows directly</h4>
+      <p>The conformal guarantee is defined on <b>voxel intensity error</b>, and that is not
+      the same quantity as <b>clinical salience</b>. A small low-contrast lesion can be
+      erased completely while the resulting intensity error stays below τ, so the map is
+      behaving correctly by its own definition and still missing the finding a radiologist
+      cares about. <em>The guarantee is sound; the risk function is wrong.</em></p>
+      <p>Conformal risk control does not require the risk to be voxel error. Re-pose it on
+      lesion miss rate — <em>among lesions the map did not flag, at most α are clinically
+      significant</em> — and the lesion simulation supplies exactly the labelled data needed
+      to calibrate it, stratified by size and contrast. That converts a guarantee about
+      intensities into a guarantee about findings, which is the one a clinician can act on.</p>
+      <p style="font-size:.92rem;color:var(--ink-2)"><b>Caveats.</b> Smooth synthetic blobs in
+      white matter, not real pathology — shape, texture and location diversity are absent.
+      The degradation is simulated by two operators, neither a real acquisition of a real
+      lesion. T2 only, since the T1 map fails independently.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">Protocol</div>
+      <h2>Do not synthesise T1 from T1</h2>
+      <p>A lesion is a physical object, so it is inserted into the 3T&nbsp;T1 <em>and</em> the
+      3T&nbsp;T2 of the same subject at the same site, with the clinically common polarity —
+      T2-hyperintense, T1-hypointense at half the magnitude, as for white-matter disease,
+      oedema and infarct. Retention is always measured against the <b>3T&nbsp;T1</b> lesion,
+      because that is the image a reader looks at.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">route into the synthesised 3T T1</th><th class="num">retention</th><th class="num">% erased</th><th class="num">4 mm</th><th class="num">12 mm</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">A · 64 mT <b>T1</b> → 3T T1</td><td class="num">0.153 ± 0.023</td><td class="num"><span class="loss">77.8%</span></td><td class="num"><span class="loss">97%</span></td><td class="num"><span class="loss">60%</span></td></tr>
+          <tr class="best"><td class="lab">B · 64 mT <b>T2</b> → 3T T1</td><td class="num"><span class="win">0.671 ± 0.066</span></td><td class="num"><span class="win">21.0%</span></td><td class="num">46%</td><td class="num"><span class="win">8%</span></td></tr>
+          <tr><td class="lab">C · both → 3T T1</td><td class="num">0.539 ± 0.054</td><td class="num">26.7%</td><td class="num">60%</td><td class="num">9%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">Changing which image you feed in cuts erasure by <b>57 percentage
+    points</b> (p&nbsp;=&nbsp;0.002, all ten subjects). The T1-driven route erases 60% of even
+    12&nbsp;mm lesions; the T2-driven route erases 8%. Adding the T1 input alongside T2 makes
+    preservation slightly <em>worse</em> (26.7% vs 21.0%), which sharpens Direction 2's
+    “the 64&nbsp;mT T1 acquisition is near-redundant” into <b>for lesion preservation it is
+    actively harmful</b>.</p>
+    <p class="col">That was the reading until the control came back. It does not survive
+    contact with it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">The correction</div>
+      <h2>Route B is not moving the lesion. It is applying a rule.</h2>
+      <p>The table above was measured at one polarity — T2-bright, T1-dark — which is both
+      the clinically common case <em>and</em> the relationship present in every training
+      pair. Two explanations were tangled: <em>“the T2 image carries the lesion better”</em>
+      and <em>“the model knows T2-bright means T1-dark”</em>. The sweep below holds the T1
+      lesion's magnitude fixed and flips its sign, so conspicuity cannot explain the gap.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">T1/T2 polarity</th><th class="num">A · T1 in</th><th class="num">A inverted</th><th class="num">B · T2 in</th><th class="num">B inverted</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">T1-dark, strong <span class="muted">(canonical)</span></td><td class="num">0.183</td><td class="num">11%</td><td class="num"><span class="win">0.370</span></td><td class="num">4%</td></tr>
+          <tr><td class="lab">T1-dark, half <span class="muted">(canonical)</span></td><td class="num">0.153</td><td class="num">12%</td><td class="num"><span class="win">0.671</span></td><td class="num">4%</td></tr>
+          <tr><td class="lab">T1-<b>bright</b>, half <span class="muted">(violates)</span></td><td class="num">0.150</td><td class="num">14%</td><td class="num"><span class="loss">−0.386</span></td><td class="num"><span class="loss">95%</span></td></tr>
+          <tr><td class="lab">T1-<b>bright</b>, strong <span class="muted">(violates)</span></td><td class="num">0.156</td><td class="num">12%</td><td class="num"><span class="loss">−0.294</span></td><td class="num"><span class="loss">95%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">Route&nbsp;A is <b>flat</b> across all four rows (0.150–0.183). It reads the
+    T1 lesion directly, so the relationship between the contrasts is irrelevant to it: it
+    erases three lesions in four either way, but it is never systematically wrong about
+    which way the lesion points.</p>
+    <p class="col">Route&nbsp;B is not transferring anything. Its output is set by the
+    <b>T2</b> input and the population-average T2→T1 coupling — double the true T1 lesion
+    and the T2 input is unchanged, so the numerator is unchanged and retention halves
+    (0.671&nbsp;→&nbsp;0.370, a factor of 1.81 against a predicted 2). It is applying a
+    learned rule: right when the lesion obeys the average coupling, proportionally wrong
+    when the magnitude differs, and <b>sign-inverted when the sign differs — at 95% of
+    sites</b>.</p>
+    <div class="note">
+      <b>This is not an exotic failure.</b> T1-hyperintense lesions are routine —
+      haemorrhage, fat, melanin, proteinaceous fluid, contrast enhancement. For every one
+      of them, route&nbsp;B shows the reader a dark lesion where the truth is bright, with a
+      clean, plausible-looking image and no hint that anything is wrong. That is worse than
+      an erasure, which at least leaves nothing to over-read.
+    </div>
+    <p class="col">So the protocol advice becomes conditional rather than absolute:
+    route&nbsp;B buys a large gain on canonical lesions and manufactures polarity errors on
+    the rest; route&nbsp;A is uniformly poor but unbiased. <b>Neither is safe unaided.</b>
+    And the obvious repair does not work — see below.</p>
+    <div class="stack g12 col">
+      <h4>The obvious fix fails</h4>
+      <p>Route&nbsp;C sees the 64&nbsp;mT T1 channel and inverts anyway, which suggests it has the
+      disambiguating evidence and ignores it — reasonably, since every training pair is normal
+      anatomy where the coupling always holds. So: retrain it with lesions whose T1 contrast is
+      sometimes the “wrong” sign, control and treatment differing in one flag.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">route C, by T1/T2 polarity</th><th class="num">control</th><th class="num">augmented</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">T1-dark, half <span class="muted">(canonical)</span></td><td class="num">0.599 <span class="muted">/ 10% inv</span></td><td class="num">0.565 <span class="muted">/ 10% inv</span></td></tr>
+          <tr><td class="lab">T1-<b>bright</b>, half <span class="muted">(violates)</span></td><td class="num"><span class="loss">−0.328 / 89% inv</span></td><td class="num"><span class="loss">−0.316 / 88% inv</span></td></tr>
+          <tr><td class="lab">T1-<b>bright</b>, strong <span class="muted">(violates)</span></td><td class="num"><span class="loss">−0.218 / 88% inv</span></td><td class="num"><span class="loss">−0.192 / 87% inv</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">Nothing moves. Normal-anatomy SSIM is untouched (0.5557&nbsp;→&nbsp;0.5564), so the
+    augmentation costs nothing — it simply achieves nothing. Inversion stays at 87–89%.</p>
+    <div class="note">
+      <b>And the reason is arithmetic, not physics.</b> Measured directly on the test cohort, the
+      lesion response added to the 64&nbsp;mT T1 slab separates the two polarities at
+      <b>AUROC 0.972</b> — 90.8% correct sign overall, 100% at the strongest contrast. The polarity
+      is plainly recoverable from the input, so the model is not blind, it is unmotivated. That
+      rules out the “64&nbsp;mT T1 cannot carry polarity” reading. Measured over sampled batches,
+      the lesion footprint is
+      <b>0.009–0.043% of pixels</b> — in a plain L1 loss, about one five-thousandth of the gradient.
+      The model has no incentive to learn a rule that pays only on a rare, tiny region when applying
+      the population-average coupling is cheaper everywhere else — and that is exactly the regime
+      where a signal worth a five-thousandth of the gradient gets ignored however clean it is.
+    </div>
+    <div class="stack g12 col">
+      <h4>So we priced the lesion properly. It still inverts.</h4>
+      <p>A third run adds an explicit lesion-footprint term worth as much as the whole-brain one —
+      a roughly five-thousandfold per-pixel upweighting — differing from the augmented run in that
+      term alone. The threshold for “loss weighting was the problem” was set in advance at below
+      50% inversion.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">route C, % inverted</th><th class="num">control</th><th class="num">augmented</th><th class="num">+ weighted loss</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">T1-dark <span class="muted">(canonical)</span></td><td class="num">10%</td><td class="num">11%</td><td class="num"><span class="win">2%</span></td></tr>
+          <tr><td class="lab">T1-<b>bright</b>, half <span class="muted">(violates)</span></td><td class="num"><span class="loss">89%</span></td><td class="num"><span class="loss">88%</span></td><td class="num"><span class="loss">91%</span></td></tr>
+          <tr><td class="lab">T1-<b>bright</b>, strong <span class="muted">(violates)</span></td><td class="num"><span class="loss">88%</span></td><td class="num"><span class="loss">87%</span></td><td class="num"><span class="loss">86%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col"><b>86–91%. Refuted</b>, against a threshold fixed before the run. But not a null
+    result: on <em>canonical</em> lesions the weighting works well — spurious inversion falls from
+    10–11% to <b>2%</b>, and normal anatomy improves rather than paying for it (SSIM
+    0.5557&nbsp;→&nbsp;0.5719). The model learned “reproduce the lesion that is there”. It did not
+    learn “read the T1 channel's sign”.</p>
+    <div class="note">
+      <b>And that is stranger than it first looks.</b> Route&nbsp;C's output is <em>the
+      64&nbsp;mT T1 slice plus a learned residual</em> — the skip connection hands it a correctly
+      signed lesion for free, at AUROC 0.972, and the residual branch actively cancels it. The model
+      is not failing to find a subtle cue; it is <b>suppressing one it is given directly</b>, because
+      across normal anatomy the 64&nbsp;mT T1 is poor enough that overwriting it with a T2-driven
+      reconstruction is the better average trade. The inversion is a <em>consequence</em> of that
+      trade, not an oversight — which is why two training-side repairs both bounce off it, and why
+      the honest near-term answer is to <b>flag</b> the failure rather than train it away.
+    </div>
+    <p class="col">And no image-quality metric can see the difference — SSIM and PSNR over a population of
+    normal anatomy are blind to a per-lesion sign flip. “64&nbsp;mT T2 predicts 3T T1
+    better” is true on average and dangerous per lesion, which is precisely the gap a
+    detectability map exists to close.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">And the metric itself</div>
+      <h2>SSIM does not rank models by whether they keep lesions</h2>
+      <p>If the input route matters more than the model, the next question is whether the
+      number everyone reports picks the right model at all. Six trained enhancers, the same
+      lesions, the same forward operator, the same ten locked test subjects.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">enhancer</th><th class="num">PSNR</th><th class="num">SSIM</th><th class="num">retention</th><th class="num">% erased</th><th class="num">4 mm erased</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">U-Net L1</td><td class="num">19.42</td><td class="num">0.622</td><td class="num">0.354</td><td class="num">41.5%</td><td class="num"><span class="loss">88%</span></td></tr>
+          <tr><td class="lab">U-Net L1+SSIM</td><td class="num">19.73</td><td class="num"><span class="win">0.655</span></td><td class="num">0.409</td><td class="num">34.2%</td><td class="num"><span class="loss">85%</span></td></tr>
+          <tr><td class="lab">U-Net absolute</td><td class="num">19.62</td><td class="num">0.628</td><td class="num">0.356</td><td class="num">39.0%</td><td class="num"><span class="loss">90%</span></td></tr>
+          <tr class="best"><td class="lab">cGAN / pix2pix</td><td class="num">18.75</td><td class="num">0.590</td><td class="num"><span class="win">0.427</span></td><td class="num"><span class="win">28.3%</span></td><td class="num"><span class="win">63%</span></td></tr>
+          <tr><td class="lab">LoHiResGAN</td><td class="num">18.08</td><td class="num">0.545</td><td class="num">0.347</td><td class="num">40.5%</td><td class="num"><span class="loss">85%</span></td></tr>
+          <tr><td class="lab">D1 calibrated corpus</td><td class="num">19.61</td><td class="num">0.639</td><td class="num"><span class="loss">0.314</span></td><td class="num"><span class="loss">45.2%</span></td><td class="num"><span class="loss">84%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">Rank correlation across the six: <b>SSIM against retention +0.03</b>,
+    PSNR against retention +0.20. There is no relationship to find.</p>
+    <p class="col">Pick on SSIM and you take U-Net&nbsp;L1+SSIM. Pick on lesion preservation
+    and you take <b>pix2pix — fifth of six on SSIM</b>. The D1 calibrated-corpus model runs the
+    inversion the other way: second best on SSIM, worst on retention
+    (p&nbsp;=&nbsp;0.0098).</p>
+    <div class="note">
+      <b>Seed-controlled, and the margin shrinks by more than half.</b> Those are one trained model
+      per architecture. Three seeds each of U-Net&nbsp;L1 and pix2pix put the single-run pix2pix
+      figure (0.427) at the <em>top</em> of its range: the seed mean is 0.372&nbsp;±&nbsp;0.048
+      against 0.345&nbsp;±&nbsp;0.009 for U-Net. <b>+0.073 retention becomes +0.027</b>, and the
+      4&nbsp;mm erasure gap <b>88%&nbsp;→&nbsp;63% becomes 88%&nbsp;→&nbsp;75%</b>. The gap is
+      <em>smaller than the within-architecture spread</em> (ratio 0.8×), though it does survive a
+      paired test over subjects once seeds are averaged (+0.027, p&nbsp;=&nbsp;0.002). Both
+      statements belong together; neither alone is the result.
+    </div>
+    <p class="col">What survives is the <em>direction</em>: SSIM prefers U-Net at every seed
+    (0.622–0.624 against 0.590–0.601, never overlapping) while retention prefers pix2pix. And
+    underneath it is a sharper version of the same point — <b>pix2pix's lesion preservation is five
+    times more seed-variable than U-Net's</b> (sd 0.048 against 0.009) <em>while its SSIM is just as
+    stable</em> (spread 0.011 against 0.002). The metric is not merely mis-ranking the models. It is
+    <b>stable in a way that conceals real instability</b> in the thing that matters: one pix2pix run
+    reports SSIM&nbsp;≈0.59 and a retention anywhere between 0.338 and 0.427, and nothing in the
+    reported number tells you which you got.</p>
+    <p class="col">It is not simply that adversarial training protects lesions. LoHiResGAN is
+    also a GAN, has the highest high-frequency fidelity of the six (r<sub>HH</sub>&nbsp;0.841),
+    and keeps lesions no better than a plain U-Net (0.347 vs 0.354, p&nbsp;=&nbsp;0.43). Nor
+    does r<sub>HH</sub> order retention — and the seeds kill that idea outright, since within
+    pix2pix alone r<sub>HH</sub> 0.792, 0.869 and 0.684 give retention 0.427, 0.338 and 0.352.
+    Non-monotone. Whatever pix2pix is doing, no reported statistic names it.</p>
+    <div class="note">
+      <b>Read with care, on two counts.</b> Six architectures make a rank correlation nearly
+      meaningless on its own — the interval around +0.03 is enormous — so the weight sits on the
+      two specific inversions, and those rest on paired tests over ten subjects. The honest claim
+      is “no relationship detectable here”, not “proven unrelated”. And the six-model table itself
+      is one run per architecture — the seed study above is what that caveat was asking for, and it
+      cut the headline margin by more than half when it arrived.
+    </div>
+    <p class="col">The consequence is the strongest argument in this programme for the whole
+    approach. Someone choosing a published ULF enhancement model on its reported PSNR and
+    SSIM is choosing on a statistic that carries <em>no information</em> about whether the
+    model keeps a small lesion. A detectability measure has to be reported alongside image
+    quality, because image quality is not a proxy for it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">The obvious reply, tested</div>
+      <h2>“Then evaluate on a downstream task” — it is worse</h2>
+      <p>The natural response to the last section is that SSIM is a crude metric and a task would
+      settle it. So: fit a three-component mixture to the within-brain intensities of the
+      <b>real</b> 3T, apply that same fitted model to the synthesised image, and measure tissue
+      agreement. The mixture is fitted per subject <em>on the target</em>, which makes this the easy
+      version — the classifier is tuned to the truth and only the synthesised intensities have to
+      land in the right places.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">pipeline</th><th class="num">SSIM</th><th class="num">tissue Dice</th><th class="num">% reclassified</th><th class="num">lesion retention</th></tr></thead>
+        <tbody>
+          <tr class="base"><td class="lab">identity — the 64 mT input</td><td class="num">—</td><td class="num">0.669</td><td class="num">25.0%</td><td class="num">—</td></tr>
+          <tr><td class="lab">U-Net L1</td><td class="num">0.622</td><td class="num">0.730</td><td class="num">19.6%</td><td class="num">0.354</td></tr>
+          <tr><td class="lab">U-Net L1+SSIM</td><td class="num">0.655</td><td class="num">0.723</td><td class="num">19.6%</td><td class="num">0.409</td></tr>
+          <tr><td class="lab">U-Net absolute</td><td class="num">0.628</td><td class="num">0.725</td><td class="num">19.3%</td><td class="num">0.356</td></tr>
+          <tr><td class="lab">cGAN / pix2pix</td><td class="num">0.590</td><td class="num">0.720</td><td class="num">20.5%</td><td class="num"><span class="win">0.427</span></td></tr>
+          <tr><td class="lab">LoHiResGAN</td><td class="num">0.545</td><td class="num">0.680</td><td class="num">22.1%</td><td class="num">0.347</td></tr>
+          <tr><td class="lab"><b>D1 calibrated corpus</b></td><td class="num">0.639</td><td class="num"><span class="win">0.741</span></td><td class="num"><span class="win">17.9%</span></td><td class="num"><span class="loss">0.314</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">The task <b>sides with SSIM and against lesion preservation</b>. Rank
+    correlation with SSIM <b>+0.60</b>; with lesion retention <b>−0.43</b>; with the <em>fraction of
+    lesions erased</em>, <b>+0.66</b> — models that destroy more lesions score <em>higher</em> on the
+    task. The extremes say it plainly: the <b>best</b> pipeline on the downstream task is the
+    <b>worst of six</b> on lesion retention, and the best on retention is fifth of six on the task.</p>
+    <div class="note">
+      <b>Which makes this the stronger form of the argument.</b> Both SSIM and a global
+      segmentation are dominated by bulk tissue, and a lesion is about <b>0.02% of the image</b>.
+      Smoothing harder improves bulk agreement <em>and</em> erases more focal structure — a real
+      trade, and no global measure, learned or hand-made, image-level or task-level, can report
+      which side of it a model sits on. “Use a downstream task instead” does not rescue the
+      evaluation; here it ranks models <em>worse</em> than SSIM does with respect to the thing a
+      radiologist is looking for. The case for a detectability measure is not that image metrics are
+      crude. It is that <b>focal and global accuracy are in tension</b>, and only a focal measure
+      reports the focal side.
+    </div>
+    <p class="col" style="font-size:.92rem;color:var(--ink-2)">Same caveats as the table above it:
+    six pipelines, one trained model each, so a −0.43 correlation at n&nbsp;=&nbsp;6 is not
+    significant and the weight sits on the extremes rather than the coefficient — the seed study
+    showed how far a single-run ranking can move. The proxy is intensity-only and fitted on the real
+    image, which makes it a floor-level task rather than a clinical one. And every pipeline beats
+    the raw 64&nbsp;mT input (0.669&nbsp;→&nbsp;0.68–0.74), so this is a finding about <em>ranking</em>,
+    not about whether synthesis is worth doing.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">The fix</div>
+      <h2>Predict detectability, not intensity error</h2>
+      <p>The margin over the fair baseline was +0.021 because both predict the same thing.
+      The lesion study showed that thing is the wrong one. So change the target rather than
+      the estimator — train a map to answer a counterfactual about the pipeline's own
+      sensitivity:</p>
+      <p class="col" style="font-family:var(--display);font-size:1.12rem;color:var(--ink)">
+      <em>“If a lesion of size r were here, would this pipeline erase it?”</em></p>
+      <p>At inference no lesion is present. Labels come entirely from simulation, so no
+      patient cohort is needed to train it. 3,125 held-out lesions in the locked 10 subjects;
+      35% erased.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">score</th><th class="num">AUROC (lesion erased)</th><th class="num">Spearman (retention)</th></tr></thead>
+        <tbody>
+          <tr class="best"><td class="lab">detectability map (ours)</td><td class="num"><span class="win">0.923</span></td><td class="num">+0.793</td></tr>
+          <tr class="base"><td class="lab">lesion radius alone — trivial control</td><td class="num">0.876</td><td class="num">+0.699</td></tr>
+          <tr><td class="lab">intensity QA map</td><td class="num"><span class="loss">0.360</span></td><td class="num">−0.280</td></tr>
+          <tr><td class="lab">ensemble SD</td><td class="num"><span class="loss">0.347</span></td><td class="num">−0.296</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="stack g12 col">
+      <h4>The control that decides it</h4>
+      <p>Retention depends strongly on lesion size, so a map that had only learned
+      “bigger lesions survive” would score well and be worthless. Within a <em>fixed</em>
+      radius the size predictor is constant, so only spatial information can help.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">within radius</th><th class="num">n</th><th class="num">detectability</th><th class="num">intensity QA</th><th class="num">ensemble SD</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">4 mm</td><td class="num">784</td><td class="num"><span class="win">0.794</span></td><td class="num">0.227</td><td class="num">0.209</td></tr>
+          <tr><td class="lab">6 mm</td><td class="num">770</td><td class="num"><span class="win">0.748</span></td><td class="num">0.356</td><td class="num">0.320</td></tr>
+          <tr><td class="lab">8 mm</td><td class="num">767</td><td class="num"><span class="win">0.809</span></td><td class="num">0.343</td><td class="num">0.293</td></tr>
+          <tr><td class="lab">12 mm</td><td class="num">804</td><td class="num"><span class="win">0.816</span></td><td class="num">0.397</td><td class="num">0.393</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <b>The intensity-based maps are anti-correlated with erasure, not merely worse.</b>
+      Both sit below chance. Checked directly: mean retention is <b>0.318 where the intensity
+      QA map says “safe”</b> and <b>0.411 where it says “risky”</b>. In smooth white matter the
+      enhancer is confident and smoothness-regularised, so it quietly erases a small blob; at
+      the cortical rim it is already generating structure, so a blob survives. The regions the
+      old map calls safe are exactly where lesions vanish — it points away from the danger.
+    </div>
+    <p class="col">This also settles the fairness question from the other side. On intensity
+    error the supervised map beat the free ensemble by +0.021, a margin barely worth the extra
+    training run. On detectability the comparison is not close, and it is not close
+    <em>because the baselines measure a quantity anti-correlated with the failure that
+    matters</em>. No improvement to an intensity-error estimator can fix that.</p>
+    <div class="stack g12 col">
+      <h4>The guarantee, re-posed on findings</h4>
+      <p>Conformal risk control is not tied to pixel intensity — it controls any bounded,
+      monotone loss. So define the loss as <em>among lesions this map declared safe, the
+      fraction actually erased</em>, computed per subject so the exchangeable unit stays the
+      subject and the floor remains 1/(n+1) = 0.111. 2,450 calibration lesions from the 8
+      dev-val subjects, 3,125 from the locked 10.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">guaranteed missed-finding rate</th><th class="num">detectability map</th><th class="num">intensity QA map</th><th class="num">ensemble SD</th></tr></thead>
+        <tbody>
+          <tr class="best"><td class="lab">α = 0.15</td><td class="num"><span class="win">flag 54.1%</span> · miss 0.045 · catch 94.0%</td><td class="num"><span class="loss">flag 100%</span></td><td class="num"><span class="loss">flag 99.9% · miss 0.200</span></td></tr>
+          <tr class="best"><td class="lab">α = 0.20</td><td class="num"><span class="win">flag 36.4%</span> · miss 0.109 · catch 80.1%</td><td class="num"><span class="loss">flag 100%</span></td><td class="num"><span class="loss">flag 99.9% · miss 0.200</span></td></tr>
+          <tr class="best"><td class="lab">α = 0.30</td><td class="num"><span class="win">flag 18.3%</span> · miss 0.218 · catch 48.9%</td><td class="num"><span class="loss">flag 100%</span></td><td class="num"><span class="loss">flag 99.9% · miss 0.200</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">The guarantee is <b>empirically honoured</b>: realised test miss sits
+    inside α at every level, on the locked subjects, with a usable operating curve — 36.4%
+    flagged buys 80.1% of erased lesions caught.</p>
+    <div class="note">
+      <b>The intensity map is vacuous at the finding level, not merely weaker.</b> It
+      satisfies the bound only by flagging <b>100%</b> of lesion sites. “Warn about
+      everything” formally meets a false-negative guarantee while conveying no information —
+      the signature of a score anti-correlated with the risk, where the threshold search runs
+      to the extreme and stops. Ensemble SD is worse still: it <em>violates</em> the bound on
+      test (0.200 against α = 0.15) while flagging 99.9%, because its declared-safe set is
+      0.1% of lesions and the calibration estimate there is noise.
+    </div>
+    <div class="stack g12 col">
+      <h4>Did it learn the pipeline, or just Gaussian blobs?</h4>
+      <p>It was trained on one family: isotropic hyperintense Gaussians, 4–12&nbsp;mm,
+      contrast 0.12/0.25. Tested on five families it had never seen — this was the main risk
+      to the whole result.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">lesion family</th><th class="num">n</th><th class="num">% erased</th><th class="num">AUROC</th></tr></thead>
+        <tbody>
+          <tr class="base"><td class="lab">iso — the training family</td><td class="num">240</td><td class="num">32%</td><td class="num">0.939</td></tr>
+          <tr><td class="lab">elongated, 3:1 aspect — shape</td><td class="num">177</td><td class="num">31%</td><td class="num"><span class="win">0.901</span></td></tr>
+          <tr><td class="lab">faint, c = 0.06 — below trained range</td><td class="num">240</td><td class="num">44%</td><td class="num"><span class="win">0.893</span></td></tr>
+          <tr><td class="lab">ring / annulus — topology</td><td class="num">240</td><td class="num">36%</td><td class="num">0.838</td></tr>
+          <tr><td class="lab">hypointense — sign flipped</td><td class="num">240</td><td class="num"><span class="loss">68%</span></td><td class="num">0.800</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col"><b>It generalises.</b> Changing shape, contrast magnitude or even topology
+    costs 0.04–0.10 AUROC against the training family. The map learned a property of the
+    synthesis, not the blob family.</p>
+    <div class="note">
+      <b>A new clinical finding came with it.</b> Hypointense lesions are erased <b>68%</b> of
+      the time against 32% for hyperintense — the enhancer is more than twice as likely to
+      erase a dark lesion as a bright one, and the map is least reliable exactly there
+      (0.800). T2 hyperintensities — white-matter disease, oedema, infarct — are the common
+      case and are well served. Haemorrhage and calcification are not.
+    </div>
+    <div class="note ok">
+      <b>Fixed, and it was nearly free.</b> Retrained on both polarities, the map reaches
+      <b>0.914</b> against 0.923 for the hyperintense-only version, with within-size AUROC
+      0.71–0.81. About 0.01 AUROC buys the removal of the restriction, so the restriction
+      no longer needs stating as a limitation. Intensity QA and ensemble SD stay below chance
+      at every size (0.360 and 0.347). The labels behind it were regenerated after a sign bug
+      was found: clamping the denominator to a positive floor silently inverted the retention
+      ratio for dark lesions, which had pushed their mean retention to −0.040. With a
+      sign-preserving guard it is +0.278.
+    </div>
+
+    <div class="stack g12 col">
+      <h4>The deliverable: a certified reliability specification</h4>
+      <p>The map is conditional on the lesion it is asked about, so a single flagged-fraction
+      is misleading. Stratified by size, the fraction of <b>brain</b> where a lesion of that
+      size cannot be trusted, at a 15% guaranteed missed-finding rate:</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">lesion size</th><th class="num">faint (c = 0.12)</th><th class="num">clear (c = 0.25)</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">4 mm</td><td class="num"><span class="loss">100.0%</span></td><td class="num"><span class="loss">100.0%</span></td></tr>
+          <tr><td class="lab">6 mm</td><td class="num">80.6% ± 4</td><td class="num">63.2% ± 4</td></tr>
+          <tr><td class="lab">8 mm</td><td class="num">30.6% ± 3</td><td class="num">24.5% ± 4</td></tr>
+          <tr class="best"><td class="lab">12 mm</td><td class="num"><span class="win">3.6% ± 1</span></td><td class="num"><span class="win">3.9% ± 2</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">Read as a clinical statement: <b>at a 15% guaranteed miss rate, a 4&nbsp;mm
+    lesion cannot be trusted anywhere in the image; a 12&nbsp;mm lesion can be trusted in 96%
+    of it.</b> The 100% row is not the map failing — it is the map correctly refusing to
+    certify something the pipeline genuinely cannot do, since a 4&nbsp;mm lesion retains only
+    17% of its contrast. A distribution-free, size-stratified statement of what the synthesis
+    can be relied upon for is the most clinically direct output of this work.</p>
+    <div class="note">
+      <b>Read the size column carefully — it is a Gaussian radius, not a calliper.</b> The real
+      features measured later on this page behave like objects <b>about 1.5× wider</b> than their
+      suprathreshold diameter suggests, because real focal structure has a flat core and soft
+      shoulders. A finding a reader would call 4&nbsp;mm across therefore sits nearer the
+      6&nbsp;mm row of this table than the 4&nbsp;mm one, and the table is correspondingly
+      <em>harsher</em> than the clinical reality it is being used to describe. The factor was
+      measured on 64 periventricular features in one cohort, moves between 1.4 and 1.8 depending
+      on how the counterfactual is built, and should not be treated as a universal constant — but
+      a specification handed to a radiologist needs a stated convention for converting a measured
+      diameter into the radius these rows are indexed by, and that conversion is not the identity.
+    </div>
+
+    <p class="col" style="font-size:.92rem;color:var(--ink-2)"><b>Caveats.</b> Radius
+    and contrast are inputs to the map — the within-radius column is what rules out its simply
+    reading them off. T2 only. <b>Seed variance:</b> across four training runs sharing one label
+    set and one test set, the headline AUROC is <b>0.919&nbsp;±&nbsp;0.006</b> (0.913–0.924) — stable
+    against the 0.56 gap to the intensity baselines. The <em>per-size</em> figures are far less
+    stable: sd runs 0.012 at 4&nbsp;mm to <b>0.064 at 12&nbsp;mm</b>, where large lesions are rarely
+    erased and the AUROC rests on few positives. Differences below about 0.06 inside one size band
+    should not be read from a single seed — which is also why the 0.784 scored on real features and
+    the 0.709–0.808 phantom band are best described as <em>the same accuracy</em>, not as one
+    beating the other. The first seed attempt was void: the seed flag never reached the training
+    loop and all three runs came out byte-identical, which is what gave it away.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">The objection, measured</div>
+      <h2>A real lesion is not a Gaussian blob. So we found some — and it nearly is.</h2>
+      <p>Everything above rests on inserted blobs, and the obvious reply is that real pathology
+      behaves differently. That had been the programme's largest open item. It is now a
+      measurement rather than a promise.</p>
+      <p>Screening the 50 paired subjects was harder than expected and the failures are worth
+      recording. A local-median z-test flagged 374–565 clusters in <em>all fifty</em> subjects;
+      a montage showed them to be ventricle margins and periventricular CSF. Contralateral
+      asymmetry barely helped — <b>18% of a normal brain</b> passes an asymmetry test at
+      z&nbsp;&gt;&nbsp;3, because the cohort is not midline-aligned well enough for reflection to
+      mean much. Excluding CSF and requiring a white-matter background and persistence across
+      slices left <b>64 sites in 9 of 50 subjects</b>, which group into <b>27 distinct 3D
+      features</b> of about 5&nbsp;mm, all periventricular.</p>
+    </div>
+    <div class="note">
+      <b>These are not confirmed pathology.</b> No radiologist has seen them, and several sit
+      close enough to a ventricle that partial volume is a live alternative. What they certainly
+      are is real focal structure, with real texture, real edges and real contrast — which is
+      the thing the phantom stands in for.
+    </div>
+    <div class="stack g12 col">
+      <p>The measurement is paired. Inpainting the feature out gives a lesion-free baseline; one
+      arm adds the real feature back, the other a Gaussian of <b>matched size and contrast at the
+      same site</b>. Same operator, same estimator, and each subject is scored by the cross-fit
+      enhancer from the fold that <em>excluded</em> it, so memorisation cannot explain the gap.
+      Adjacent slices of one lesion are not independent, so the headline is counted per 3D
+      object, not per slice.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">what was inserted at the site</th><th class="num">retention</th><th class="num">% erased</th></tr></thead>
+        <tbody>
+          <tr class="best"><td class="lab">the real focal feature</td><td class="num"><span class="win">0.537</span></td><td class="num">28%</td></tr>
+          <tr><td class="lab">a Gaussian phantom, matched size and contrast</td><td class="num">0.263</td><td class="num"><span class="loss">61%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure>
+      <img src="fig8_real.png" alt="Four rows, one per subject, two of them locked-test subjects. Columns: the 3T slice containing a real focal hyperintensity, the same slice with the feature inpainted out, the inpainted slice with a matched Gaussian added, and the pipeline's output for the real feature and for the phantom. In every row the real feature is still visible in the output while the Gaussian is largely smoothed away.">
+      <figcaption>One site per subject, each the <b>median</b> case for that subject rather than its
+      best — the retentions shown straddle the reported means. Columns two and three build the
+      comparison: the feature is inpainted out to make a lesion-free baseline, then either the real
+      feature or a matched Gaussian is put back. In the last two columns the real structure survives
+      the pipeline while the Gaussian of the same size and contrast is largely smoothed away.</figcaption>
+    </figure>
+    <p class="col">Higher at <b>26 of 27 objects</b>, Wilcoxon p&nbsp;&lt;&nbsp;0.0001 (feather-free,
+    25 of 28). Counted
+    per slice (n&nbsp;=&nbsp;64) it is 0.509 against 0.253. On the <b>locked-test subjects alone</b>
+    (28 sites) the gap is just as large — 0.564 against 0.267 — so this is not an artefact of
+    training-set membership. A stricter screen run as a sensitivity check agrees in every respect
+    (0.308 against 0.121, higher at 13 of 13 sites), and <em>its</em> phantom arm independently
+    reproduces the 4&nbsp;mm curve measured elsewhere in this work (0.121 against ~0.147), so the
+    paired design is calibrated rather than measuring something else.</p>
+    <p class="col">Taken at face value this says the phantom study is pessimistic and real
+    pathology is safer than the page claims. That reading is tempting and it is wrong — the next
+    panel takes the gap apart, and almost all of it turns out to be an artefact of how the real
+    feature's size was measured rather than anything about real tissue.</p>
+    <div class="note">
+      <b>Every caveat here is load-bearing.</b> Twenty-seven features in nine of fifty subjects.
+      Unconfirmed aetiology. A narrow size band and essentially one location. The inpaint defines
+      the counterfactual, so the number is only as good as the fill. And the screen selects
+      <em>conspicuous</em> features, so “real structure” here means “structure sharp enough for an
+      automated screen to find” — the matching controls site and contrast, but not that selection.
+      This is a direction established, not a rate established.
+    </div>
+
+    <div class="stack g12 col">
+      <h4>Why real structure survived better — and it is not what it looked like</h4>
+      <p>A gap that large deserved an explanation rather than a story about real tissue being
+      special, and the explanation turned out to be mundane. The screen measures a feature by
+      its <em>suprathreshold core</em>, but real focal structure has a flat core and long soft
+      shoulders. Fitting each feature's own radial profile gives an effective radius about
+      <b>half again the thresholded one</b>. The “matched” Gaussian was matched to the core,
+      while the real feature behaves like a substantially wider object — and size is what drives
+      retention.</p>
+      <p>So a third arm: a Gaussian matched to the <b>fitted extent</b>, with the real feature
+      re-scored the same way. And because the inpaint's feather spreads the difference beyond the
+      feature and would inflate any fitted extent, the whole thing is run twice — once with the
+      feather, once without it.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">counterfactual</th><th class="num">fitted extent</th><th class="num">core-matched gap</th><th class="num">profile-matched gap</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">feathered (σ = 1.5)</td><td class="num">×1.71</td><td class="num"><span class="loss">+0.256</span></td><td class="num"><span class="win">+0.024</span></td></tr>
+          <tr class="best"><td class="lab">feather-free — the conservative reading</td><td class="num">×1.48</td><td class="num"><span class="loss">+0.170</span></td><td class="num"><span class="win">+0.023</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col"><b>86–91% of the gap disappears, and which inpaint is used barely matters.</b>
+    The size factor does move — ×1.48 without the feather against ×1.71 with it, so the honest
+    figure is <b>about 1.5×</b>, not 1.7× — but the profile-matched gap lands at +0.023 either way.
+    A Gaussian phantom does predict real-structure behaviour, provided it is matched on effective
+    extent rather than on a thresholded core. This <em>validates</em> the phantom method rather
+    than undermining it. What survives is a measurement convention worth stating plainly: a real
+    lesion's thresholded diameter understates the radius that governs its fate by about half
+    again, so the erasure rates on this page are rates for a <em>Gaussian radius</em>, not for a
+    radiologist's calliper.</p>
+
+    <div class="stack g12 col">
+      <h4>And the map transfers</h4>
+      <p>Asked at each real site whether a lesion there would be erased, and checked against
+      what actually happened to the feature:</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">the map, asked about…</th><th class="num">AUROC <span class="muted">feathered / free</span></th><th class="num">Spearman</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">the thresholded core — the naive query</td><td class="num">0.705 / 0.699</td><td class="num">+0.28</td></tr>
+          <tr class="best"><td class="lab">the fitted extent — the size it behaves as</td><td class="num"><span class="win">0.784 / 0.777</span></td><td class="num"><span class="win">+0.60 / +0.46</span></td></tr>
+          <tr class="base"><td class="lab">phantom lesions, within one size — the comparator</td><td class="num">0.71–0.81</td><td class="num">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">The map transfers to real focal structure at <b>the accuracy it reaches on
+    phantoms within a size band</b>, and asking it about the feature's effective extent rather
+    than its thresholded core is worth about +0.08 AUROC. Both figures hold whichever
+    counterfactual is used, which is the reassuring part — the one number that moves with the
+    inpaint is the size factor, and the conclusions do not rest on it.</p>
+    <div class="note">
+      <b>A correction, recorded rather than quietly fixed.</b> An earlier version of this page
+      reported 0.505 here and concluded the map did not transfer. That was a sign error — the map
+      predicts <em>retention</em>, so the score must be negated before scoring it against erasure.
+      The same data, correctly oriented, gives 0.705. The conclusion reversed; the numbers above
+      are the corrected ones.
+    </div>
+    <p class="col" style="font-size:.92rem;color:var(--ink-2)">Still bounded: 64 sites and 41
+    objects, one narrow size band, one location, unconfirmed aetiology, and retention measured
+    against an inpainted counterfactual. The conformal guarantee remains calibrated on phantoms and
+    should not be quoted for real structure without its own calibration set — but there is no
+    longer any evidence that it fails on <em>real structure</em>. There is, however, a second axis.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">The closed-loop objection</div>
+      <h2>The simulation gets the physics right — and a story I had to withdraw</h2>
+      <p>Every retention figure above feeds the enhancer a 64&nbsp;mT image produced by the
+      <em>learned forward operator</em>. That is a closed loop: the operator decides how visible a
+      lesion is in the input, and the enhancer is then graded on recovering it. The paired cohort
+      has <b>real</b> 64&nbsp;mT acquisitions, so the same 64 features can be measured with the
+      operator taken out of the loop entirely.</p>
+      <p>A real scan has no counterfactual, so retention here is the direct contrast ratio between
+      the synthesised and the true 3T. To keep that from confounding the comparison, a control runs
+      the <em>same</em> estimator through the simulated pipeline — separating “different estimator”
+      from “different input”.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">pipeline</th><th class="lab">estimator</th><th class="num">retention</th><th class="num">map Spearman</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">simulated — learned operator</td><td class="lab">inpainting</td><td class="num">0.505–0.528</td><td class="num"><span class="win">+0.46 to +0.60</span></td></tr>
+          <tr><td class="lab">simulated — learned operator</td><td class="lab">direct</td><td class="num">0.576</td><td class="num"><span class="win">+0.376</span></td></tr>
+          <tr><td class="lab"><b>real 64 mT acquisition</b></td><td class="lab">direct</td><td class="num">0.531</td><td class="num"><span class="loss">+0.191</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col"><b>The simulation is sound.</b> Mean retention through a real acquisition
+    (0.531) sits close to the simulated pipeline (0.576) and to the inpainting estimate
+    (0.505–0.528). The decisive test is better powered than any of those: the real-input and
+    simulated label sets share <b>2934 identical sites</b> — same slice, same centre, same radius,
+    same contrast — differing only in which image the enhancer was fed.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">on 2934 matched sites</th><th class="num">simulated input</th><th class="num">real 64 mT input</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">mean retention</td><td class="num">0.362</td><td class="num">0.358</td></tr>
+          <tr><td class="lab">% erased</td><td class="num">33%</td><td class="num">34%</td></tr>
+          <tr class="best"><td class="lab">correlation between the two pipelines</td><td class="num" colspan="2"><span class="win">ρ = +0.942</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">A lesion's fate barely depends on whether its input was rendered by the operator
+    or really acquired. <b>The closed loop is not getting the physics wrong.</b></p>
+    <p class="col">The original map nonetheless scores badly on real features — 0.554 — and the
+    obvious reading was covariate shift: a map trained on smooth rendered inputs, handed a real
+    noisy acquisition. Retraining it on real 64&nbsp;mT inputs lifted it to 0.818, which looked like
+    confirmation. But the two maps came from <em>different training code</em> as well as different
+    inputs, so a control was needed: the same new trainer, on rendered inputs.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">detectability map, scored on the real-input pipeline</th><th class="num">AUROC</th><th class="num">Spearman</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">original trainer, rendered inputs</td><td class="num"><span class="loss">0.554</span></td><td class="num">+0.191</td></tr>
+          <tr class="best"><td class="lab"><b>same new trainer</b>, rendered inputs — the control</td><td class="num"><span class="win">0.785</span></td><td class="num"><span class="win">+0.445</span></td></tr>
+          <tr><td class="lab">new trainer, real 64 mT inputs</td><td class="num">0.818</td><td class="num">+0.292</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col"><b>The control kills the story.</b> Decomposing the gain by paired bootstrap:
+    the <b>trainer</b> is worth <b>+0.231</b> (95% CI [+0.069, +0.394]); the <b>input</b> is worth
+    <b>+0.034</b> (95% CI <b>[−0.052, +0.111]</b> — indistinguishable from zero). By rank
+    correlation the real-input map is actually <em>worse</em> than the same trainer on rendered
+    inputs. There is no covariate-shift effect to find.</p>
+    <p class="col">What the trainers differ in is mundane: the original paints the retention label
+    across the lesion's whole <nobr>(2r+1)²</nobr> footprint, the new one supervises a single pixel
+    at the site centre — which is exactly where the evaluation queries the map. So some of that
+    +0.231 is likely the evaluation favouring the recipe built for it, and a <em>spatial</em>
+    readout — which is what the brain-fraction and conformal results actually use — might well
+    prefer the box-supervised map. That comparison has not been run.</p>
+    <div class="note ok">
+      <b>So the closed-loop objection does not bite, on either axis.</b> The two pipelines erase
+      lesions near-identically (ρ&nbsp;=&nbsp;0.942 over 2934 matched sites), and training the QA map
+      on real rather than rendered inputs makes no measurable difference. That is a stronger
+      position than the one being defended an hour earlier — it is simply not the finding that was
+      announced.
+    </div>
+
+    <div class="stack g12 col">
+      <h4>One map, six enhancers — and the thing it must not be used for</h4>
+      <p>If the map encodes <em>this</em> pipeline's behaviour, does a lab need a new one for every
+      model it trains? Identical lesions at identical sites across all six enhancers, one fixed map
+      throughout — re-queried per architecture, since it reads that pipeline's own output, but with
+      its weights frozen.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">enhancer</th><th class="num">actual retention</th><th class="num">AUROC</th><th class="num">within-size</th><th class="num">map's mean prediction</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">U-Net L1</td><td class="num">0.354</td><td class="num">0.896</td><td class="num">0.783</td><td class="num">0.326</td></tr>
+          <tr><td class="lab">U-Net L1+SSIM</td><td class="num">0.409</td><td class="num">0.919</td><td class="num">0.789</td><td class="num">0.318</td></tr>
+          <tr class="base"><td class="lab">U-Net absolute <span class="muted">— the map's home</span></td><td class="num">0.356</td><td class="num">0.923</td><td class="num">0.786</td><td class="num">0.321</td></tr>
+          <tr><td class="lab">cGAN / pix2pix</td><td class="num"><span class="win">0.427</span></td><td class="num">0.869</td><td class="num">0.793</td><td class="num">0.325</td></tr>
+          <tr><td class="lab">LoHiResGAN</td><td class="num">0.347</td><td class="num">0.912</td><td class="num">0.795</td><td class="num">0.317</td></tr>
+          <tr><td class="lab">D1 calibrated corpus</td><td class="num"><span class="loss">0.314</span></td><td class="num">0.865</td><td class="num">0.800</td><td class="num">0.321</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col"><b>Site ranking transfers.</b> AUROC 0.865–0.923 on five pipelines the map was
+    never trained against, and the within-size column is almost flat at 0.783–0.800 — a spread no
+    larger than the per-size seed noise. One map serves a model zoo.</p>
+    <div class="note">
+      <b>But it cannot rank the models, and must never be used to.</b> Actual retention spans
+      0.314–0.427 across these six while the map's own <em>mean prediction</em> spans 0.317–0.326 —
+      flat. Rank correlation between predicted and actual across architectures: <b>+0.31</b>. A lab
+      that compared two enhancers by averaging this map over the brain would see nothing at all.
+      Ordering sites within a pipeline and ordering pipelines are different abilities, and this map
+      has only the first.
+    </div>
+    <p class="col">Both halves have one cause, and it is visible in a variance decomposition. The
+    map's input is the 64&nbsp;mT slab, the lesion geometry, <em>and that pipeline's own
+    prediction</em> — across these six runs only the last changes. Of the map's output variance,
+    <b>99.7% sits between sites and 0.0% between architectures</b>, while the actual retention is
+    79.6% / 2.4%. When the pipeline changes, the map moves <b>0.08×</b> as much as the truth does.</p>
+    <div class="note">
+      <b>The map has learned to ignore the channel that tells it which pipeline it is auditing.</b>
+      It is effectively a function of the input image and the lesion alone — which explains the
+      transfer and the blindness at once: it generalises to unseen enhancers <em>because it never
+      depended on the enhancer</em>. That reframes what it is. Built as “would <em>this pipeline</em>
+      erase a lesion here?”, it behaves as “is this a site where ULF-to-3T synthesis of this kind
+      erases lesions?” — a property of the image, not of the model under audit. Useful and
+      transferable, but not what conditioning on the prediction was supposed to buy. And it was
+      redundant by construction: during training there is exactly one enhancer, so the prediction is
+      a deterministic function of the input and carries nothing the input does not already have —
+      nothing in the objective <em>could</em> have taught the map to use it. Which pointed at an
+      obvious fix: train across several enhancers so pipeline identity finally carries signal.
+    </div>
+
+    <div class="stack g12 col">
+      <h4>The fix was tried. It does not work either.</h4>
+      <p>A map trained across U-Net&nbsp;L1, pix2pix and LoHiResGAN, then scored on all six with
+      <b>three held out</b> — so “it can rank pipelines” would have to mean pipelines it never saw.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">map</th><th class="num">site AUROC</th><th class="num">within-size</th><th class="num">predicted spread ÷ actual</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">single-pipeline</td><td class="num">0.865–0.923</td><td class="num"><span class="win">0.783–0.800</span></td><td class="num"><span class="loss">0.08</span></td></tr>
+          <tr><td class="lab">trained across three enhancers</td><td class="num">0.857–0.910</td><td class="num">0.718–0.766</td><td class="num"><span class="loss">0.07</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">Nothing moved. The map's predicted spread across pipelines is <b>0.008</b> against
+    an actual spread of <b>0.113</b> — the same ratio as before. Site ranking still transfers,
+    including to the held-out pipelines, but within-size accuracy actually <em>fell</em>
+    (0.783–0.800&nbsp;→&nbsp;0.718–0.766). Multi-pipeline training cost accuracy and bought nothing.
+    <span class="muted">(The held-out rank correlation came out at −1.00, which looks dramatic and
+    means nothing: with three pipelines every ordering has probability 1/6.)</span></p>
+    <div class="note">
+      <b>Two attempts have now failed, so this is a property rather than a gap.</b> The model
+      declines to use the pipeline channel even when it is made informative and it is given a reason
+      to. Lesion detectability under this kind of synthesis is a property of <em>the site and the
+      lesion</em>, not of the enhancer — pipeline identity accounts for 2.4% of the variance in the
+      truth and the map captures essentially none of it. The prohibition on using this map to choose
+      between models is not a caveat waiting to be fixed in a later version.
+    </div>
+    <div class="note">
+      <b>Two claims withdrawn from this section, in order.</b> First: that the map was “tied to the
+      operator”, called the sharpest limitation on the page, on the strength of a rank correlation
+      falling from +0.376 to +0.191 across 64 sites — about one standard error at that n, never
+      significant, and contradicted by the 2934-site test. Second: that retraining on real inputs
+      repaired it, worth +0.264 AUROC — which the control attributes almost entirely to the training
+      recipe instead. Both failed the same way: a difference read between two conditions without
+      holding the other differences fixed, at an n where noise dominates. The control that caught
+      the second one was only queued because the first had already gone wrong.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">The closing argument</div>
+      <h2>Why the flagged error has to go to a human</h2>
+      <p>If the map can say where the synthesis is wrong, the obvious next move is to make
+      the model fix it. Three independent attempts all hit a floor.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">route</th><th class="num">best case</th><th class="lab">verdict</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">re-synthesis — stage-2 residual corrector, clean 5-fold design</td><td class="num"><span class="loss">−0.025 SSIM</span></td><td class="lab">degrades the image; all 10 subjects worse, p = 0.002</td></tr>
+          <tr><td class="lab">extra averages — NEX = 2 over the <em>entire</em> volume</td><td class="num">0.7%</td><td class="lab">error is not noise-limited</td></tr>
+          <tr><td class="lab">higher resolution — k-space 0.50 → 0.75, entire volume</td><td class="num">1.8%</td><td class="lab">better, still a small prize</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">The cascade result is the sharp one. Correcting a <em>weaker</em>
+    (24-subject) enhancer with matched residuals <em>helps</em> (+0.013 SSIM). Correcting the
+    best model, with both confounds removed, <em>hurts</em> (−0.025). A well-trained model
+    leaves mostly irreducible ambiguity, and a corrector fitted to that learns spurious
+    structure. Once the subject-specific signal has been extracted, what remains has no
+    learnable direction.</p>
+    <p class="col"><b>So the error the map flags cannot be consumed by the algorithm — only
+    by a human who can fall back on the 64 mT image.</b> That is the argument for putting it
+    in front of a radiologist rather than into another training loop.</p>
+    <div class="stack g12 col">
+      <h4>Guided re-acquisition: the allocation works, the prize does not</h4>
+      <p>Given a budget to re-scan part of the volume at higher resolution, the map does pick
+      better slices than chance — it captures roughly 1.4× what random allocation captures
+      and about 85% of what an oracle with the true error map would. A contiguous slab does
+      as well as scattered top-k, which matters because a slab is what a scanner can
+      actually re-run. But 1.4× better allocation of a 1.8% effect is ~0.3% absolute error
+      reduction: sound in principle, not yet a clinical argument.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g32">
+    <div class="stack g12 col">
+      <div class="eyebrow">What did not work</div>
+      <h2>Four negative results</h2>
+      <p>Recorded because each one closes off a route that looks attractive from the
+      literature.</p>
+    </div>
+
+    <div class="verdict no">
+      <span class="mark">1</span>
+      <div class="stack g12">
+        <h3>The diffusion posterior collapses</h3>
+        <p class="col">Porting the residual-shift wavelet diffusion of Yeow et&nbsp;al. to 2D
+        and training it on the real pairs, the posterior spread fell to <b>0.0010</b> against
+        an actual error of 0.078 — <b>78× underdispersed</b>. With strong 64 mT conditioning
+        and an L1 objective the network learns a near-deterministic map and sampling stops
+        producing a posterior. Unit-variance subbands, γ&nbsp;=&nbsp;2 and 10% conditioning
+        dropout recovered 8× of the spread (0.0079), still ~9× under the error.</p>
+        <p class="col"><b>Posterior SD must never be read as an error bar.</b> Its scale here
+        was wrong by a factor of eighty. Fixing the collapse improved conformal interval
+        efficiency a lot (−8.6% → −15.1%) and error <em>ranking</em> barely at all (AUROC
+        0.795 → 0.801) — a score can rank correctly and still make useless intervals, so
+        report both.</p>
+      </div>
+    </div>
+
+    <div class="verdict no">
+      <span class="mark">2</span>
+      <div class="stack g12">
+        <h3>"Evidence versus prior" is refuted, twice</h3>
+        <p class="col">The appealing idea: among voxels the model claims are certain, those
+        that <em>ignore the input</em> are prior-driven and dangerous. Two probes tested it.
+        Perturbing the input gave a ratio of <b>0.772</b>; swapping in a different subject's
+        64 mT scan at the same axial position gave <b>0.775</b>. Both below 1 — at equal
+        dispersion, voxels that ignore the input are <em>more</em> accurate, not less.</p>
+        <p class="col">The bug was equating <em>prior-driven</em> with <em>hallucinated</em>.
+        Where anatomy is conserved across people — deep white matter, large CSF spaces — the
+        prior is <b>correct</b>, and those regions are easy. Regions that change when the
+        subject changes are cortical folding: variable, and genuinely hard. The prior is only
+        dangerous where the true anatomy is <em>atypical</em>.</p>
+        <div class="note">
+          <b>Consequence: hallucination cannot be measured on a healthy cohort.</b> The prior
+          is right nearly everywhere, so every uncertainty axis ends up rediscovering that
+          cortex is harder than white matter. Studying hallucination needs anatomy the prior
+          does not expect — lesions, atrophy, ventriculomegaly, post-surgical change. This is
+          why Yeow et&nbsp;al. carry an n&nbsp;=&nbsp;11 MCI/AD cohort beside their healthy
+          one, and it is the single most important thing missing from this dataset.
+        </div>
+      </div>
+    </div>
+
+    <div class="verdict no">
+      <span class="mark">3</span>
+      <div class="stack g12">
+        <h3>The <em>intensity</em> map fails on T1 — but the detectability map does not</h3>
+        <p class="col">The intensity QA map reaches only 0.654 on T1 and is <em>beaten by the
+        free deep ensemble</em> (0.664); at α&nbsp;=&nbsp;0.15 it must flag <b>74.5%</b> of the
+        brain. The 64&nbsp;mT T1 input is noise-dominated, so its error is spatially uniform
+        and hard to predict — which Finding A had forecast from the within-subject sub-band
+        cosine (0.334 on T1 against 0.746 on T2).</p>
+        <p class="col"><b>That turned out to be a statement about the target, not the
+        contrast.</b> Run on T1, the detectability map reaches <b>0.842</b> — clearing the
+        radius control (0.789) and above chance within every fixed radius — while the
+        intensity QA map and ensemble SD sit at chance (0.495 and 0.468). The approach
+        generalises across both contrasts; the intensity approach fails on both,
+        anti-correlated on T2 and uninformative on T1.</p>
+        <div class="note">
+          <b>And the bigger finding: the T1 pipeline erases 77% of lesions, against 35% on
+          T2.</b> Synthesised 3T&nbsp;T1 destroys roughly three-quarters of simulated lesions.
+          With Direction&nbsp;2 — where 64&nbsp;mT T2 predicts 3T&nbsp;T1 <em>better</em> than
+          64&nbsp;mT T1 does — T1-from-T1 is both the least informative route and the most
+          destructive. So T1 is not where the method fails; it is where the synthesis is most
+          dangerous and where the detectability map is the only working signal.
+        </div>
+      </div>
+    </div>
+
+    <div class="verdict no">
+      <span class="mark">4</span>
+      <div class="stack g12">
+        <h3>The generative posterior is not worth its cost for intervals</h3>
+        <p class="col">A 32-draw diffusion posterior ranks error at AUROC 0.801. A cheap
+        quantile-regression head on the same test subjects reached <b>0.828</b>, and a
+        Gaussian variance head gave conformal intervals 13.6% tighter than constant width
+        against the diffusion's 12.2%. The posterior earns its keep by producing plausible
+        alternative anatomies, not by producing better error bars.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24 col">
+    <div class="stack g12">
+      <div class="eyebrow">Track record</div>
+      <h2>Six things this page claimed and had to take back</h2>
+      <p>Each is corrected in place above; collected here because the pattern is more useful than
+      any one of them, and because a reader is entitled to know the hit rate.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="lab">the claim</th><th class="lab">what was actually true</th><th class="lab">how it was caught</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">The T2-driven route cuts erasure 78%&nbsp;→&nbsp;21%</td><td class="lab">Only for canonical lesions; it inverts polarity at 95% of sites for the rest</td><td class="lab">A control sweep holding |contrast| fixed and flipping its sign</td></tr>
+          <tr><td class="lab">The map does not transfer to real structure (AUROC 0.505)</td><td class="lab">0.705 — a sign error; the map predicts retention, so the score must be negated</td><td class="lab">A Spearman that was positive while the AUROC said chance</td></tr>
+          <tr><td class="lab">Real structure survives 2.5× better than a phantom</td><td class="lab">~90% of the gap is a size-measurement artefact; match on effective extent and it is +0.023</td><td class="lab">Fitting each feature's own radial profile instead of thresholding it</td></tr>
+          <tr><td class="lab">The map is tied to the operator — “the sharpest limitation”</td><td class="lab">The two pipelines agree at ρ&nbsp;=&nbsp;0.942; the gap was one standard error at n&nbsp;=&nbsp;64</td><td class="lab">A 2934-site matched comparison instead of a 64-site one</td></tr>
+          <tr><td class="lab">Training on real inputs repairs it (+0.264 AUROC)</td><td class="lab">+0.034, CI crossing zero — the gain was the training recipe</td><td class="lab">The control that was queued <em>because</em> the previous four happened</td></tr>
+          <tr><td class="lab">pix2pix gains +0.073 retention; 4&nbsp;mm erasure 88%&nbsp;→&nbsp;63%</td><td class="lab">+0.027 and 88%&nbsp;→&nbsp;75%; the published run was the best of three</td><td class="lab">Three seeds per architecture — queued <em>before</em> any result suggested a problem</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">Four of the six failed the same way: a difference read between two conditions
+    without holding the other differences fixed, at an n where noise dominates. One was a sign
+    convention. None was caught by re-reading code — every one fell to a better-powered or
+    better-controlled rerun, which is the only argument this page can make for the numbers that have
+    <em>not</em> been withdrawn. The last one is the cheap case worth copying: the control was
+    queued because the claim rested on a single run per arm, before anything suggested it was
+    wrong.</p>
+    <div class="note">
+      <b>A sixth, different in kind.</b> The first seed-variance run reported three identical
+      results and was read as evidence of stability. The seed flag had never reached the training
+      loop. Identical results across seeds are a plumbing bug, not a property — and the same
+      hardcoded-seed pattern turned up in a second script once we went looking. The real answer is
+      0.919&nbsp;±&nbsp;0.006.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack g24">
+    <div class="stack g12 col">
+      <div class="eyebrow">Honest limits</div>
+      <h2>What would have to be true before this is clinical</h2>
+    </div>
+    <ol>
+      <li><b>A reader study.</b> Every number here is a proxy. Whether flagging 22% of the
+      brain actually changes what a radiologist concludes is unmeasured, and is the claim
+      that matters.</li>
+      <li><b>Real pathology.</b> The lesion study uses synthetic blobs. Whether the same
+      size-dependent blind spot holds for real infarcts, haemorrhage or white-matter disease
+      needs a patient cohort.</li>
+      <li><b>Re-pose the guarantee on findings, not intensities.</b> This is the concrete
+      next experiment and the lesion data already supports it.</li>
+      <li><b>α = 0.10 is out of reach</b> with eight calibration subjects. Certifying 0.05
+      needs 19 and 0.01 needs 99. The guarantee is only as fine as the cohort allows.</li>
+      <li><b>Seeds: the headline is stable, the per-size numbers less so.</b> Four training runs
+      give AUROC 0.919&nbsp;±&nbsp;0.006. But within a single size band the spread reaches 0.064 at
+      12&nbsp;mm, so small within-band differences are not readable from one run. A note on how this
+      was nearly missed: an earlier claim on this page said the pipeline was “exactly
+      deterministic — the same configuration run twice agreed to four decimals”. It did, because
+      the seed flag never reached the training loop. Identical results across seeds are evidence of
+      a plumbing bug, not of stability, and the same hardcoded-seed pattern turned up in a second
+      script once we went looking.</li>
+      <li><b>Region-level, not voxel-level.</b> Everything is scored per voxel. A reader
+      works in anatomical regions, and conformal risk control at the structure level would be
+      both more usable and a stronger guarantee.</li>
+      <li><b>The map does not yet predict inversion.</b> It was trained to answer “would a
+      lesion here be erased?”, and the polarity sweep has since turned up a second, worse
+      failure — route&nbsp;B flipping a lesion's sign at 95% of sites when the lesion
+      violates the usual T1/T2 coupling. A map for that pipeline has to answer “would a
+      lesion here be erased <em>or reversed</em>?”, and nothing in the present label
+      definition distinguishes the two.</li>
+      <li><b>Two data counts to reconcile</b> before anything is published: the unpaired 64 mT
+      stack splits into 88 runs rather than the 48 subjects described, and the auxiliary 3T
+      corpus holds 185 subjects rather than 356.</li>
+      <li><b>Re-acquisition is simulated.</b> The NEX and resolution experiments use the
+      learned and hand-crafted forward operators, not a real rescan. One invalid arm (a
+      budget-matched uniform comparison that loaded the wrong simulation domain) is excluded
+      from the numbers above.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="col stack g8">
+    <p>Code and per-subject records: <code>/mnt/G/Projects/ULF-MICCAI</code> —
+    <code>exp/d3qa*.py</code> for the QA map, <code>exp/d3v2*.py</code> for the posterior and
+    attribution probes, <code>exp/d3acq.py</code> and <code>exp/d3cascade*.py</code> for the
+    reducibility experiments, <code>FINDINGS.md</code> for the full record.</p>
+    <p>All metrics brain-masked. The 10-subject test list is unchanged from the predecessor
+    project's seed-42 split. Companion report covering the three enhancement directions:
+    the 64 mT Enhancement Program page.</p>
+  </div>
+</footer>
+
+</div>
