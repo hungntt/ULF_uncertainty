@@ -19,7 +19,7 @@ sys.path.insert(0, "/mnt/G/Projects/ULF-MICCAI")
 from ulfkit import data as D, metrics as M, models as Mo, train as T
 
 OUT = "/mnt/G/Projects/ULF-MICCAI/out"
-CACHE = "/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/data"
+CACHE = "/mnt/G/Projects/ULF-MICCAI/datasets/npy"
 
 
 # ---------------------------------------------------------------- hand-crafted D
@@ -246,9 +246,10 @@ def stage_pairs(contrast, mode, cap=4.0, tag="", n_subj=None):
 
 
 def stage_train(contrast, mode, pre_steps, ft_steps, bs=16, base=32, tag=None,
-                n_subj=None, ptag=""):
+                n_subj=None, ptag="", seed=0):
     """Pretrain on pseudo-pairs (if any), then finetune on the real paired set."""
-    T.seed_all(0)
+    # seed reaches the global RNG and both samplers; seed=0 reproduces the original run
+    T.seed_all(seed)
     coh, tr, val = D.dev_split(contrast)
     if n_subj is not None:                 # nested subsets, so the curve is monotone in data
         tr = sorted(tr)[:n_subj]
@@ -278,12 +279,12 @@ def stage_train(contrast, mode, pre_steps, ft_steps, bs=16, base=32, tag=None,
         ph = (np.load(f"{CACHE}/d1_pseudo_hf_{contrast}{ptag}.npy") if mode == "learned_cal"
               else D.unpaired_3t(contrast))
         print(f"  pretrain on {len(pu)} pseudo-pairs [{mode}]")
-        smp = T.Sampler(pu, ph, np.arange(len(pu)), bs=bs, seed=2)
+        smp = T.Sampler(pu, ph, np.arange(len(pu)), bs=bs, seed=1000 * seed + 2)
         pre_info = T.train_regression(net, smp, pre_steps, lr=2e-4, log=print,
                                       val_fn=val_fn, val_every=2000)
         del pu, ph
 
-    smp = T.Sampler(coh.ulf, coh.hf, coh.rows_for(tr), bs=bs, seed=0)
+    smp = T.Sampler(coh.ulf, coh.hf, coh.rows_for(tr), bs=bs, seed=1000 * seed)
     info = T.train_regression(net, smp, ft_steps, lr=1e-4, log=print, val_fn=val_fn, val_every=1000)
     rows = T.evaluate(net, test, test.subjects, in_fn_of(test))
     agg = M.aggregate(rows)
@@ -310,8 +311,9 @@ if __name__ == "__main__":
     ap.add_argument("--tag", default=None)
     ap.add_argument("--n_subj", type=int, default=None)
     ap.add_argument("--ptag", default="")
+    ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
     if a.stage == "forward": stage_forward(a.contrast, a.steps, n_subj=a.n_subj, tag=a.ptag)
     elif a.stage == "pairs": stage_pairs(a.contrast, a.mode, tag=a.ptag, n_subj=a.n_subj)
     else: stage_train(a.contrast, a.mode, a.pre_steps, a.ft_steps, tag=a.tag,
-                      n_subj=a.n_subj, ptag=a.ptag)
+                      n_subj=a.n_subj, ptag=a.ptag, seed=a.seed)

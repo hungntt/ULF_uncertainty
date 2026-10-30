@@ -106,7 +106,7 @@ if __name__ == "__main__":
     enh = enhancer(); enh.load_state_dict(torch.load(f"{OUT}/base_unet_noresid_{a.contrast}.pt")); enh.eval()
     fwd = operator(a.contrast, a.op)
     print(f"[{a.contrast}] generating held-out lesion labels on the locked test set")
-    lab = f"/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/data/detect_test_{a.contrast}.npy"
+    lab = f"/mnt/G/Projects/ULF-MICCAI/datasets/npy/detect_test_{a.contrast}.npy"
     if os.path.exists(lab):
         recs = [tuple(r) for r in np.load(lab, allow_pickle=True)]
         print(f"  reusing {len(recs)} cached test labels")

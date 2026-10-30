@@ -41,18 +41,21 @@ def load(kind, path):
 
 
 @torch.no_grad()
-def run(contrast="T2", n_sites=5, radii=(2, 3, 4, 6), cs=(0.12, 0.25), seed=11):
+def run(contrast="T2", n_sites=5, radii=(2, 3, 4, 6), cs=(0.12, 0.25), seed=11, nets=None,
+        split="test"):
+    """nets: optional [(name, module)]; sites depend only on seed, not on which nets run."""
     T.seed_all(seed)
     rng = np.random.default_rng(seed)
     gen = torch.Generator(device="cuda"); gen.manual_seed(seed)
-    test = D.PairedCohort("test", contrast)
+    test = D.PairedCohort(split, contrast)
     fwd = operator(contrast, "learned")
-    nets = []
-    for nm, path, kind in ARCHS:
-        try:
-            nets.append((nm, load(kind, path)))
-        except FileNotFoundError:
-            print(f"  (missing {path}, skipped)")
+    if nets is None:
+        nets = []
+        for nm, path, kind in ARCHS:
+            try:
+                nets.append((nm, load(kind, path)))
+            except FileNotFoundError:
+                print(f"  (missing {path}, skipped)")
     rows = []
     for sid in test.subjects:
         idx = test.subject_rows(sid)

@@ -17,7 +17,7 @@ from ulfkit import data as D, metrics as M, models as Mo, train as T
 from ulfkit.metrics import paired_test
 
 OUT = "/mnt/G/Projects/ULF-MICCAI/out"
-CACHE = "/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/data"
+CACHE = "/mnt/G/Projects/ULF-MICCAI/datasets/npy"
 
 
 def rotate(contrast, steps=9000, bs=16):

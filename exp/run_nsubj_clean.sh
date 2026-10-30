@@ -13,6 +13,6 @@ for N in 4 8 16; do
   $PY exp/d1.py pairs   --contrast T2 --mode learned_cal --n_subj $N --ptag "_n$N" >> $LOG 2>&1
   $PY exp/d1.py train   --contrast T2 --mode learned_cal --n_subj $N --ptag "_n$N" \
       --pre_steps 8000 --ft_steps 6000 --tag "cn${N}_learned_cal" >> $LOG 2>&1
-  rm -f /tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/data/d1_pseudo_*_n$N.npy
+  rm -f /mnt/G/Projects/ULF-MICCAI/datasets/npy/d1_pseudo_*_n$N.npy
 done
 echo "CLEAN SWEEP DONE" >> $LOG

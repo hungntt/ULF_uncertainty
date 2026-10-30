@@ -2,7 +2,7 @@
 import json, os
 import numpy as np
 
-DATA = os.environ.get("ULF_DATA", "/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/data")
+DATA = os.environ.get("ULF_DATA", "/mnt/G/Projects/ULF-MICCAI/datasets/npy")
 
 # 8 of the 40 training subjects, held out for model selection. The 10-subject
 # test list in manifest_test_* stays untouched until a run is final.

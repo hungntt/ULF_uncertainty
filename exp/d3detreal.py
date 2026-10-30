@@ -22,7 +22,7 @@ from exp.d3qa import enhancer
 from exp.d3detect import operator, site_pool, blobs
 
 OUT = "/mnt/G/Projects/ULF-MICCAI/out"
-CACHE = "/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/data"
+CACHE = "/mnt/G/Projects/ULF-MICCAI/datasets/npy"
 RADII, CS = (2, 3, 4, 6), (-0.25, -0.12, 0.12, 0.25)
 
 

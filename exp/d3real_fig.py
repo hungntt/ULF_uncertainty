@@ -10,7 +10,7 @@ from exp.d3detect import operator, blobs
 from exp.d3realret import feature_mask, inpaint, fold_for
 
 OUT = "/mnt/G/Projects/ULF-MICCAI/out"
-FIG = "/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad"
+FIG = "/mnt/G/Projects/ULF-MICCAI/datasets/scratch"
 C = {"ink": "#0e1419", "ink2": "#4a5560"}
 plt.rcParams.update({"font.size": 8, "text.color": C["ink"], "figure.facecolor": "white"})
 H = 30

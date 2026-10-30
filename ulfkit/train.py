@@ -1,10 +1,15 @@
 """Shared training / evaluation loop."""
-import time
+import os, time
 import numpy as np
 import torch
 import torch.nn.functional as F
 
 from . import metrics as M
+
+# several training jobs share one GPU: ULF_MEMFRAC caps this process's share, so the caching
+# allocator frees and reuses blocks instead of growing until a neighbour runs out of memory
+if os.environ.get("ULF_MEMFRAC") and torch.cuda.is_available():
+    torch.cuda.set_per_process_memory_fraction(float(os.environ["ULF_MEMFRAC"]))
 
 
 def seed_all(s=0):

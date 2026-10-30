@@ -23,7 +23,7 @@ from exp.d3detect import operator, site_pool, blobs
 from exp.d3arch import load
 
 OUT = "/mnt/G/Projects/ULF-MICCAI/out"
-CACHE = "/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/data"
+CACHE = "/mnt/G/Projects/ULF-MICCAI/datasets/npy"
 TRAIN_ARCH = [("U-Net L1", "base_unet_T2", "unet_res"),
               ("cGAN / pix2pix", "base_pix2pix_T2", "unet_res"),
               ("LoHiResGAN", "base_lohiresgan_T2", "lohires")]

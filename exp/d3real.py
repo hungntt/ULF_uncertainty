@@ -21,7 +21,7 @@ sys.path.insert(0, "/mnt/G/Projects/ULF-MICCAI")
 from ulfkit import data as D
 
 OUT = "/mnt/G/Projects/ULF-MICCAI/out"
-FIG = "/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/real"
+FIG = "/mnt/G/Projects/ULF-MICCAI/datasets/scratch/real"
 import os as _os
 # thresholds overridable so the screen can be loosened to grow n without rewriting it
 Z = float(_os.environ.get("REAL_Z", 4.0))

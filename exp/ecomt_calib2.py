@@ -20,7 +20,7 @@ sys.path.insert(0, "/mnt/G/Projects/ULF-MICCAI")
 from ulfkit import data as D, eco as E, metrics as M, models as Mo, train as T
 
 OUT = "/mnt/G/Projects/ULF-MICCAI/out"
-CACHE = "/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/data"
+CACHE = "/mnt/G/Projects/ULF-MICCAI/datasets/npy"
 NSC, SCALES = 3, ["fine", "med", "coarse"]
 import importlib.util
 _s = importlib.util.spec_from_file_location("ecomt", "/mnt/G/Projects/ULF-MICCAI/exp/ecomt.py")

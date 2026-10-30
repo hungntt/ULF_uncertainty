@@ -47,14 +47,20 @@ def pack(x1=None, x2=None):
 
 @torch.no_grad()
 def run(contrast_pair=("T1", "T2"), c1_frac=-0.5, n_sites=5, radii=(2, 3, 4, 6),
-        cs=(0.12, 0.25), seed=5, cmodel="bothtoT1"):
+        cs=(0.12, 0.25), seed=5, cmodel="bothtoT1", c2_sign=1.0, extra_c=(), both_pool=False,
+        split="test"):
+    """c1_frac: T1 contrast relative to |T2 contrast| (negative = T1-dark).
+    c2_sign: -1 makes the lesion T2-dark. extra_c: further route-C checkpoints, scored
+    as routes C_<tag>. both_pool: draw sites that are mid-intensity in T1 AND T2, so a
+    dark lesion cannot clip at zero in either contrast."""
     T.seed_all(seed)
     rng = np.random.default_rng(seed)
     gen = torch.Generator(device="cuda"); gen.manual_seed(seed)
-    mc = D.MultiContrastCohort("test")
+    mc = D.MultiContrastCohort(split)
     f1, f2 = operator("T1", "learned"), operator("T2", "learned")
     eA = enhancer(); eA.load_state_dict(torch.load(f"{OUT}/base_unet_noresid_T1.pt")); eA.eval()
     eB, eC = d2_model("T2toT1"), d2_model(cmodel)
+    eX = [(f"C_{t}", d2_model(t)) for t in extra_c]
 
     rows = []
     for sid in sorted(set(mc.sid)):
@@ -65,13 +71,14 @@ def run(contrast_pair=("T1", "T2"), c1_frac=-0.5, n_sites=5, radii=(2, 3, 4, 6),
             _, hf = mc.batch(p)
             y1 = torch.from_numpy(hf[:, 0:1].astype(np.float32)).cuda()
             y2 = torch.from_numpy(hf[:, 1:2].astype(np.float32)).cuda()
-            ok = site_pool(y1)
+            ok = site_pool(y1) & site_pool(y2) if both_pool else site_pool(y1)
             # lesion-free controls for each route
             x1_0, x2_0 = f1(y1, gen), f2(y2, gen)
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 pA0 = eA(x1_0).float().clamp(0, 1)
                 pB0 = eB(pack(x2=x2_0)).float().clamp(0, 1)
                 pC0 = eC(pack(x1_0, x2_0)).float().clamp(0, 1)
+                pX0 = [e(pack(x1_0, x2_0)).float().clamp(0, 1) for _, e in eX]
             jobs = []
             for s in range(len(p)):
                 cand = torch.nonzero(ok[s])
@@ -87,6 +94,7 @@ def run(contrast_pair=("T1", "T2"), c1_frac=-0.5, n_sites=5, radii=(2, 3, 4, 6),
                 rr = torch.tensor([t[3] for t in ch], device="cuda")
                 c2 = torch.tensor([t[4] for t in ch], device="cuda")[:, None, None, None]
                 c1 = c2 * c1_frac
+                c2 = c2 * c2_sign
                 b = blobs(cy, cx, rr) * (y1[si] > 0).float()
                 y1l = (y1[si] + c1 * b).clamp(0, 1)
                 y2l = (y2[si] + c2 * b).clamp(0, 1)
@@ -102,7 +110,10 @@ def run(contrast_pair=("T1", "T2"), c1_frac=-0.5, n_sites=5, radii=(2, 3, 4, 6),
                     pA = eA(x1l).float().clamp(0, 1)
                     pB = eB(pack(x2=x2l)).float().clamp(0, 1)
                     pC = eC(pack(x1l, x2l)).float().clamp(0, 1)
-                for nm, pl, p0 in (("A_T1in", pA, pA0), ("B_T2in", pB, pB0), ("C_both", pC, pC0)):
+                    pX = [e(pack(x1l, x2l)).float().clamp(0, 1) for _, e in eX]
+                outs = [("A_T1in", pA, pA0), ("B_T2in", pB, pB0), ("C_both", pC, pC0)]
+                outs += [(nm, pl, p0) for (nm, _), pl, p0 in zip(eX, pX, pX0)]
+                for nm, pl, p0 in outs:
                     dp = pl - p0[si]
                     rec = torch.stack([(dp[k][core[k]].mean() - dp[k][ring[k]].mean())
                                        if good[k] else torch.tensor(0., device="cuda")

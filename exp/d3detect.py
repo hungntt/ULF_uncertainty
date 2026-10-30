@@ -26,7 +26,7 @@ from exp.d1 import load_forward, handcrafted_D
 from exp.d3qa import enhancer
 
 OUT = "/mnt/G/Projects/ULF-MICCAI/out"
-CACHE = "/tmp/claude-17055/-mnt-G/5ec3b7fc-b916-4b70-887e-dbe4d6709b39/scratchpad/data"
+CACHE = "/mnt/G/Projects/ULF-MICCAI/datasets/npy"
 
 
 def blobs(cy, cx, r, H=256, W=256):

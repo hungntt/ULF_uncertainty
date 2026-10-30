@@ -33,6 +33,11 @@ cross-contrast (T1/T2) fusion, and uncertainty / QA / lesion-detectability maps 
 | `d3real*.py` | screen the cohort for real focal lesions |
 | `d3acq.py`, `d3cascade*.py`, `d3tissue.py`, `d3arch*.py` | re-acquisition guidance, error reducibility, tissue-segmentation proxy, architecture comparison |
 | `ecomt*.py` | ECO-MT: gated Mean Teacher on unpaired ULF |
+| `d3zoo.py`, `d3zoo_stats.py`, `run_seeds12k*.sh`, `run_zoo_rolling.sh` | 15 enhancers / 39 models (six architectures x five seeds at 12000 steps): retention, SSIM/PSNR, tissue proxy, exported volumes; Spearman rho with a bootstrap over enhancers, seeds and subjects |
+| `d3synthseg.py` | SynthSeg (FreeSurfer 8.2) Dice and volume error against SynthSeg on 3T, as the downstream endpoint |
+| `d3lesiontype.py`, `d3polarity.py`, `d3pipe.py` | cross-contrast routes into 3T T1: wrong-sign rate by T1/T2 polarity quadrant |
+| `d3synthsr.py` | the same quadrants through the public SynthSR tools (`--lowfield`, Hyperfine), 3D |
+| `d3realcoupling.py` | real-anatomy check of the inversion (negative: the healthy cohort has no strong coupling-violating structure) |
 | `report.py`, `figs.py`, `qualitative.py` | result tables and figures |
 
 Each script's docstring states the question it tests. The `run_*.sh` / `chain*.sh` files record the exact commands and
@@ -42,7 +47,7 @@ step counts used for each result.
 
 ```bash
 # pytorch, pytorch_wavelets, numpy, scipy, scikit-learn, matplotlib; CUDA GPU required
-export ULF_DATA=/path/to/preprocessed/npy      # .npy slabs + manifest_{split}_{contrast}.json
+export ULF_DATA=/path/to/preprocessed/npy      # default: datasets/npy (.npy slabs + manifests)
 python -I -u exp/baselines.py --contrast T2 --method unet --steps 12000
 python -I -u exp/d1.py forward --contrast T2 --steps 6000
 python -I -u exp/d1.py pairs   --contrast T2 --mode learned_cal
